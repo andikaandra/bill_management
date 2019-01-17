@@ -12,6 +12,7 @@ use App\DosierDesember;
 use Illuminate\Http\Request;
 use App\Exports\BillDesemberExport;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
@@ -152,13 +153,18 @@ class HomeController extends Controller
         // return Excel::download($arrayDosier, time().'.xlsx');
     }
 
-    public function test3()
-    {
+    public function test3(Request $Request)
+    {   
+
         $start = microtime(true);
 
-        $contentDosier = File::get(storage_path('app/public/Data_I_Dossier_Datek_2018-12_27_PEKALONGAN.txt'));
-        $contentBill = File::get(storage_path('app/public/PohonRevenue-v220190106 172648-bill.txt'));
 
+        if (!file_exists(storage_path('app/public/'.$Request->dosier)) or !file_exists(storage_path('app/public/'.$Request->revenue))) {
+            return Redirect::back()->withErrors(['File tidak tersedia', 'File tidak tersedia']);
+        }
+
+        $contentDosier = File::get(storage_path('app/public/'.$Request->dosier));
+        $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
         $dataDosier = explode("\n", $contentDosier);
         $arrayDosier = array();
         foreach ($dataDosier as $d) {
@@ -173,8 +179,6 @@ class HomeController extends Controller
 
         array_pop($arrayDosier);
         array_pop($arrayBill);
-
-
 
         $dataBill = array();
         for ($i = 0; $i < count($arrayBill); $i++) {
@@ -207,24 +211,12 @@ class HomeController extends Controller
             $dataDosier[$i] = implode($dataDosier[$i]);
         }
         
-        // for ($i=0; $i < 10 ; $i++) { 
-        //     for ($j=0; $j < count($dataBill) ; $j++) { 
-        //         if (substr($dataDosier[$i], 0, strpos($dataDosier[$i], '|'))==substr($dataBill[$j], 0, strpos($dataBill[$j], '|'))) {
-        //             $dataDosier[$i]=$dataDosier[$i]."|".$dataBill[$j];
-        //             break;
-        //         }
-        //     }
-        // }
-        // return $dataDosier[0];
-        // return microtime(true) - $start;
-        array_unshift($dataDosier , $header."\r");
+        array_unshift($dataDosier , $header);
         $resDosier = implode("\r",$dataDosier);
 
-        $fileNameDosier = time() . '_datafile.txt';
+        $fileNameDosier = time() . '_data-profiling.txt';
         File::put(storage_path('app/public/'.$fileNameDosier),$resDosier);
         return Response::download(storage_path('app/public/'.$fileNameDosier));
-        // return (new FastExcel($arrayDosier))->download(time().'.xlsx');
-        // return Excel::download($arrayDosier, time().'.xlsx');
     }
 
     public function binary_search($nd, $data) {
@@ -237,7 +229,6 @@ class HomeController extends Controller
             else if ($data[$mid][0] < $nd) $min = $mid + 1;
             else $max = $mid - 1;
         }
-        // $nd was not found
         return false;
     }
 

@@ -22,6 +22,7 @@ Route::group(['middleware' => ['admin_only']], function(){
 	Route::get('/unbill', 'HomeController@unbill');
 	Route::get('/data/bill/{id}/{snd}/{bulan}', 'HomeController@getData');
 	Route::get('/download', 'HomeController@download');
+	Route::post('/test3', 'HomeController@test3')->name('test3');
 });
 Auth::routes();
 
@@ -33,5 +34,4 @@ Route::get('/import-fast', 'HomeController@importFast');
 
 Route::get('/test', 'HomeController@test');
 Route::get('/test2', 'HomeController@test2');
-Route::get('/test3', 'HomeController@test3');
 // Route::get('/test', 'HomeController@test')->name('test');
