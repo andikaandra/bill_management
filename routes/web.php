@@ -32,4 +32,6 @@ Route::get('/import', 'HomeController@import');
 Route::get('/import-fast', 'HomeController@importFast');
 
 Route::get('/test', 'HomeController@test');
+Route::get('/test2', 'HomeController@test2');
+Route::get('/test3', 'HomeController@test3');
 // Route::get('/test', 'HomeController@test')->name('test');
