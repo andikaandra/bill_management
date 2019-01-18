@@ -111,23 +111,33 @@
               <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url('/')}}">
-              <span class="menu-title">Bill</span>
+      {{--     <li class="nav-item" id="admin-home">
+            <a class="nav-link" href="{{url('admin')}}">
+              <span class="menu-title">Home</span>
               <i class="mdi mdi-home menu-icon"></i>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url('/unbill')}}">
-              <span class="menu-title">Unbill</span>
+          <li class="nav-item" id="admin-home">
+            <a class="nav-link" href="{{url('admin')}}">
+              <span class="menu-title">Home</span>
               <i class="mdi mdi-home menu-icon"></i>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url('/download')}}">
-              <span class="menu-title">Download</span>
-              <i class="mdi mdi-home menu-icon"></i>
+          </li> --}}
+          <li class="nav-item" id="admin-upload">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false" aria-controls="ui-basic4">
+              <span class="menu-title">UPLOAD</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-upload menu-icon"></i>
             </a>
+            <div class="collapse" id="ui-basic4">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/bill') }}">Bill</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/unbill') }}">Unbill</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/dosier') }}">Dosier</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/ukur-voice') }}">Ukur Voice</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/gpon') }}">GPON</a></li>
+              </ul>
+            </div>
           </li>
         </ul>
       </nav>

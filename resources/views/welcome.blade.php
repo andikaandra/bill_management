@@ -37,7 +37,7 @@
                 <td>Rp. @convert($data->ABONEMEN)</td>
                 <td>Rp. @convert($data->DEBIT)</td>
                 <td>Rp. @convert($data->KREDIT)</td>
-                <td align="center"><button type="button" data-snd="{{$data->SND}}" data-bulan="desember" data-id="{{$data->id_bill}}" class="btn btn-sm btn-warning info">Cek</button></td>
+                <td align="center"><button type="button" data-snd="{{$data->SND}}" data-bulan="desember" data-id="{{$data->id}}" class="btn btn-sm btn-warning info">Cek</button></td>
               </tr>
           @endforeach
         </tbody>

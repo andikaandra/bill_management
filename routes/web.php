@@ -22,16 +22,20 @@ Route::group(['middleware' => ['admin_only']], function(){
 	Route::get('/unbill', 'HomeController@unbill');
 	Route::get('/data/bill/{id}/{snd}/{bulan}', 'HomeController@getData');
 	Route::get('/download', 'HomeController@download');
-	Route::post('/test3', 'HomeController@test3')->name('test3');
+	Route::get('/upload/bill', 'HomeController@uploadBill');
+	Route::get('/upload/unbill', 'HomeController@uploadUnbill');	
+	Route::get('/upload/dosier', 'HomeController@uploadDosier');
+	Route::get('/upload/ukur-voice', 'HomeController@uploadUkurVoice');
+	Route::get('/upload/gpon', 'HomeController@uploadGpon');
+
+	Route::post('/upload-bill', 'UploadController@uploadBill')->name('upload.bill');
+	Route::post('/upload-unbill', 'UploadController@uploadUnbill')->name('upload.unbill');
+	Route::post('/upload-dosier', 'UploadController@uploadDosier')->name('upload.dosier');
+	Route::post('/upload-ukur', 'UploadController@uploadUkurVoice')->name('upload.ukur.voice');
+	Route::post('/upload-gpon', 'UploadController@uploadGpon')->name('upload.gpon');
+	
+	Route::get('/test', 'DownloadController@test');
+	Route::get('/test2', 'DownloadController@test2');
+	Route::post('/test3', 'DownloadController@test3')->name('test3');
 });
 Auth::routes();
-
-Route::get('/export', 'HomeController@export');
-Route::get('/export-fast', 'HomeController@exportFast');
-
-Route::get('/import', 'HomeController@import');
-Route::get('/import-fast', 'HomeController@importFast');
-
-Route::get('/test', 'HomeController@test');
-Route::get('/test2', 'HomeController@test2');
-// Route::get('/test', 'HomeController@test')->name('test');
