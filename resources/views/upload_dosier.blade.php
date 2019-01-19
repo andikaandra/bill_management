@@ -36,12 +36,50 @@
 	</form>
   	<br>
 	<div class="alert alert-success" role="alert">
-	  <h4 class="alert-heading">Note!</h4>
+	  <h4 class="alert-heading text-danger">Note!</h4>
 	  <p class="mb-0">- File harus berupa .txt</p>
 	  <p class="mb-0">- Jika anda mengupload data, maka data yang lama akan digantikan oleh data yang baru</p>
 	  <p class="mb-0">- Sistem hanya akan mencatat kolom sebagai berikut. kolom lainnya akan diabaikan</p>
 	  <hr>
-	  <p class="mb-0">"NCLI", "ND", "ND_REFERENCE", "NAMA", "DATEL", "CMDF", "RK", "DP", "LGEST", "LCAT", "LCOM", "CQUARTIER", "LQUARTIER", "CPOSTAL", "LVOIE", "NVOIE", "BAT", "RP_TAGIHAN", "TUNDA_CABUT", "LART", "LTARIF", "KWADRAN", "KWADRAN_POTS", "IS_IPTV", "CDATEL"</p>
+	  <div class="row">
+	  	<div class="col">
+		  	<ul>
+		  		<li>NCLI</li> 
+		  		<li>ND</li> 
+		  		<li>ND_REFERENCE</li> 
+		  		<li>NAMA</li> 
+		  		<li>DATEL</li> 
+		  		<li>CMDF</li> 
+		  		<li>RK</li> 
+		  		<li>DP</li> 
+		  		<li>LGEST</li> 
+		  	</ul>
+	  	</div>
+	  	<div class="col">
+		  	<ul>
+		  		<li>LCAT</li> 
+		  		<li>LCOM</li> 
+		  		<li>CQUARTIER</li> 
+		  		<li>LQUARTIER</li> 
+		  		<li>CPOSTAL</li> 
+		  		<li>LVOIE</li> 
+		  		<li>NVOIE</li> 
+		  		<li>BAT</li> 
+		  	</ul>
+	  	</div>
+	  	<div class="col">
+		  	<ul>
+		  		<li>RP_TAGIHAN</li> 
+		  		<li>TUNDA_CABUT</li> 
+		  		<li>LART</li> 
+		  		<li>LTARIF</li> 
+		  		<li>KWADRAN</li> 
+		  		<li>KWADRAN_POTS</li> 
+		  		<li>IS_IPTV</li> 
+		  		<li>CDATEL</li>
+		  	</ul>
+	  	</div>
+	  </div>
 	</div>
 </div>
 @endsection

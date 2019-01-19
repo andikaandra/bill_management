@@ -36,12 +36,54 @@
 	</form>
   	<br>
 	<div class="alert alert-success" role="alert">
-	  <h4 class="alert-heading">Note!</h4>
+	  <h4 class="alert-heading text-danger">Note!</h4>
 	  <p class="mb-0">- File harus berupa .txt</p>
 	  <p class="mb-0">- Jika anda mengupload data, maka data yang lama akan digantikan oleh data yang baru</p>
 	  <p class="mb-0">- Sistem hanya akan mencatat kolom sebagai berikut. kolom lainnya akan diabaikan</p>
 	  <hr>
-	  <p class="mb-0">"NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING"</p>
+	  <div class="row">
+	  	<div class="col">
+		  	<ul>
+			  	<li>NPER</li> 
+			  	<li>TYPE_POHON</li> 
+			  	<li>CCA</li> 
+			  	<li>SND</li> 
+			  	<li>SND_GROUP</li> 
+			  	<li>PRODUK</li> 
+			  	<li>BISNIS_AREA</li> 
+			  	<li>CATEGORY</li> 
+			  	<li>STO_DESC</li> 
+			  	<li>DATMS</li> 
+			</ul>
+	  	</div>
+	  	<div class="col">
+		  	<ul>
+			  	<li>DATRS</li> 
+			  	<li>UMUR_PLG</li> 
+			  	<li>USAGE_DESC</li> 
+			  	<li>PAKET_FBIP</li> 
+			  	<li>PAKET_SPEEDY_DESC</li> 
+			  	<li>STATUS</li> 
+			  	<li>TOTAL_NET</li> 
+			  	<li>TOTAL</li> 
+			  	<li>PPN</li> 
+			  	<li>ABONEMEN</li> 
+			</ul>
+	  	</div>
+	  	<div class="col">
+		  	<ul>
+			  	<li>PEMAKAIAN</li> 
+			  	<li>KREDIT</li> 
+			  	<li>DEBIT</li> 
+			  	<li>BAYAR</li> 
+			  	<li>BAYAR_DESC</li> 
+			  	<li>CENTITE</li> 
+			  	<li>GROUP_PORTFOLIO</li> 
+			  	<li>INDIHOME_DESC</li> 
+		  		<li>BUNDLING</li>
+		  	</ul>	  		
+	  	</div>
+	  </div>
 	</div>
 </div>
 @endsection

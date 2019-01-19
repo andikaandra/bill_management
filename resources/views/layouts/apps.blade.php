@@ -15,7 +15,7 @@
   <div class="container-scroller">
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="{{url('/')}}"><img src="{{asset('admin-template/images/logo.svg')}}" alt="logo"/></a>
+        <a class="navbar-brand brand-logo" href="{{url('/')}}"><img src="{{asset('admin-template/images/logo.png')}}" alt="logo" style="width: 90px; height: auto;" /></a>
         <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('admin-template/images/logo-mini.svg')}}" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -76,7 +76,7 @@
           <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
               <div class="nav-profile-image">
-                <img src="{{asset('admin-template/images/faces/face1.jpg')}}" alt="profile">
+                <img src="{{asset('admin-template/images/user.png')}}" alt="profile">
                 <span class="login-status online"></span>
               </div>
               <div class="nav-profile-text d-flex flex-column">
@@ -121,9 +121,11 @@
         <div class="content-wrapper">
           <div class="page-header">
             <h3 class="page-title">
-              <span class="page-title-icon bg-gradient-primary text-white mr-2">
-                <i class="mdi mdi-home"></i>                 
-              </span>
+              <a href="{{url('/')}}" style="text-decoration : none">
+                <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                  <i class="mdi mdi-home"></i>                 
+                </span>                
+              </a>
               Dashboard
             </h3>
             <nav aria-label="breadcrumb">

@@ -139,12 +139,6 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="witel" class="col-sm-4 col-form-label">WITEL</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="witel" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
                 <label for="datel" class="col-sm-4 col-form-label">DATEL</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="datel" disabled>
@@ -202,8 +196,7 @@
         $("input[id='umur']").val("Rp. "+data.data.UMUR_PLG + " Bulan");
 
         $("input[id='nama']").val(data.pelanggan.NAMA);
-        $("input[id='witel']").val(data.pelanggan.DATEL);
-        $("input[id='datel']").val(data.pelanggan.WITEL);
+        $("input[id='datel']").val(data.pelanggan.DATEL);
         $("input[id='lart']").val(data.pelanggan.LART ? data.pelanggan.LART : '-');
 
         $("#modal-data").modal('show');

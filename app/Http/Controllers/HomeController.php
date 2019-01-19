@@ -71,9 +71,9 @@ class HomeController extends Controller
 
     public function getData($id, $snd, $bulan)
     {
-        $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR', 'SND' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('id_bill', $id)->first();
-        $pelanggan = DB::table('dosier_'.$bulan)->select('NAMA', 'WITEL', 'DATEL' ,'LART')->where('ND', $snd)->first();
-
+        $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR', 'SND' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('id', $id)->first();
+        $pelanggan = DB::table('dosier_'.$bulan)->select('NAMA', 'DATEL' ,'LART')->where('ND', $snd)->first();
+        
         return response()->json(['data' => $data, 'pelanggan' => $pelanggan]);
     }
 }
