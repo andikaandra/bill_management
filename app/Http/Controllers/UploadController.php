@@ -21,7 +21,7 @@ class UploadController extends Controller
     {	
         $start = microtime(true);
         if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-			return Redirect::back()->withErrors(["File ".$Request->revenue." tidak ada."]);
+			return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
         }
 
         DB::connection()->disableQueryLog();
@@ -35,9 +35,11 @@ class UploadController extends Controller
        	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
-        for ($i=0; $i < count($headerBill) ; $i++) {
+        $countHeaderBill = count($headerBill);
+        $countListKolom = count($listKolom);
+        for ($i=0; $i < $countHeaderBill ; $i++) {
         	$flag=0;
-        	for ($j=0; $j < count($listKolom) ; $j++) { 
+        	for ($j=0; $j < $countListKolom ; $j++) { 
         		if ($listKolom[$j]==$headerBill[$i]) {
         			array_push($indexHeader, $j);
         			$flag=1;
@@ -57,7 +59,7 @@ class UploadController extends Controller
 
             $temp = explode('|', $d);
             $temp2 = array();
-            for ($i=0; $i < count($headerBill); $i++) {
+            for ($i=0; $i < $countHeaderBill; $i++) {
             	$index = $indexHeader[$i];
             	if ($index >= 0) {
 	                $temp2[$headerBill[$i]] = $temp[$index];
@@ -72,14 +74,14 @@ class UploadController extends Controller
         foreach ($chunks as $c) {
             DB::table('bill_'.$Request->bulan)->insert($c);
         }
-        return Redirect::back()->withErrors(["Upload berhasil! <br>waktu : ".(microtime(true) - $start)." detik <br> Nama File : ".$Request->revenue." <br>Bulan : ".$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
     }
 
     public function uploadUnbill(Request $Request)
     {	
         $start = microtime(true);
         if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-			return Redirect::back()->withErrors(["File ".$Request->revenue." tidak ada."]);
+			return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
         }
 
         DB::connection()->disableQueryLog();
@@ -93,9 +95,11 @@ class UploadController extends Controller
        	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
-        for ($i=0; $i < count($headerBill) ; $i++) {
+        $countHeaderBill = count($headerBill);
+        $countListKolom = count($listKolom);
+        for ($i=0; $i < $countHeaderBill ; $i++) {
         	$flag=0;
-        	for ($j=0; $j < count($listKolom) ; $j++) { 
+        	for ($j=0; $j < $countListKolom ; $j++) { 
         		if ($listKolom[$j]==$headerBill[$i]) {
         			array_push($indexHeader, $j);
         			$flag=1;
@@ -115,7 +119,7 @@ class UploadController extends Controller
 
             $temp = explode('|', $d);
             $temp2 = array();
-            for ($i=0; $i < count($headerBill); $i++) {
+            for ($i=0; $i < $countHeaderBill; $i++) {
             	$index = $indexHeader[$i];
             	if ($index >= 0) {
 	                $temp2[$headerBill[$i]] = $temp[$index];
@@ -131,14 +135,14 @@ class UploadController extends Controller
         foreach ($chunks as $c) {
             DB::table('unbill_'.$Request->bulan)->insert($c);
         }
-        return Redirect::back()->withErrors(["Upload berhasil! <br>waktu : ".(microtime(true) - $start)." detik <br> Nama File : ".$Request->revenue." <br>Bulan : ".$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
     }
 
     public function uploadDosier(Request $Request)
     {	
         $start = microtime(true);
         if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-			return Redirect::back()->withErrors(["File ".$Request->revenue." tidak ada."]);
+			return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
         }
 
         DB::connection()->disableQueryLog();
@@ -152,9 +156,12 @@ class UploadController extends Controller
        	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
-        for ($i=0; $i < count($headerDosier) ; $i++) {
+        $countHeaderDosier = count($headerDosier);
+        $countListKolom = count($listKolom);
+
+        for ($i=0; $i < $countHeaderDosier ; $i++) {
         	$flag=0;
-        	for ($j=0; $j < count($listKolom) ; $j++) { 
+        	for ($j=0; $j < $countListKolom ; $j++) { 
         		if ($listKolom[$j]==$headerDosier[$i]) {
         			array_push($indexHeader, $j);
         			$flag=1;
@@ -174,7 +181,7 @@ class UploadController extends Controller
 
             $temp = explode('|', $d);
             $temp2 = array();
-            for ($i=0; $i < count($headerDosier); $i++) {
+            for ($i=0; $i < $countHeaderDosier; $i++) {
                 $temp2[$headerDosier[$i]] = $temp[$indexHeader[$i]];
             }
             array_push($arrayDosier, $temp2);
@@ -184,6 +191,17 @@ class UploadController extends Controller
         foreach ($chunks as $c) {
             DB::table('dosier_'.$Request->bulan)->insert($c);
         }
-        return Redirect::back()->withErrors(["Upload berhasil! <br>waktu : ".(microtime(true) - $start)." detik <br> Nama File : ".$Request->revenue." <br>Bulan : ".$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
     }
+
+    public function uploadUkurVoice(Request $Request)
+    {   
+        return $Request;
+    }
+
+    public function uploadGpon(Request $Request)
+    {   
+        return $Request;
+    }
+
 }

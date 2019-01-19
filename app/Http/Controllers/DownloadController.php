@@ -7,6 +7,17 @@ use File;
 use View;
 use Excel;
 use Response;
+use App\BillJanuari;
+use App\BillFebruari;
+use App\BillMaret;
+use App\BillApril;
+use App\BillMei;
+use App\BillJuni;
+use App\BillJuli;
+use App\BillAgustus;
+use App\BillSeptember;
+use App\BillOktober;
+use App\BillNovember;
 use App\BillDesember;
 use App\DosierDesember;
 use Illuminate\Http\Request;
@@ -16,6 +27,63 @@ use Illuminate\Support\Facades\Redirect;
 
 class DownloadController extends Controller
 {
+    private $bulan = array('januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember');
+
+    private $tipe = array('csv', 'xlsx', 'txt');
+
+    public function downloadBill($bulan, $tipe)
+    {
+        $namaFile = date('dmy_').'bill_'.$bulan.'_'.time().'.'.$tipe;
+
+        if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
+            if ($tipe == 'xlsx' or $tipe == 'csv') {
+                if ($bulan == 'januari') {
+                    return (new FastExcel(BillJanuari::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'februari') {
+                    return (new FastExcel(BillFebruari::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'maret') {
+                    return (new FastExcel(BillMaret::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'april') {
+                    return (new FastExcel(BillApril::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'mei') {
+                    return (new FastExcel(BillMei::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'juni') {
+                    return (new FastExcel(BillJuni::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'juli') {
+                    return (new FastExcel(BillJuli::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'agustus') {
+                    return (new FastExcel(BillAgustus::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'september') {
+                    return (new FastExcel(BillSeptember::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'oktober') {
+                    return (new FastExcel(BillOktober::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'november') {
+                    return (new FastExcel(BillNovember::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'desember') {
+                    return (new FastExcel(BillDesember::all()))->download($namaFile);
+                }
+                return "dsd";
+            }
+            elseif ($tipe == 'txt') {
+                return "in-progress";
+            }
+        } 
+        else{
+            return "Format salah";
+        }
+    }
+
     public function exportFast()
     {
         return (new FastExcel(BillDesember::select('SND' , 'UMUR_PLG', 'TOTAL_NET', 'TOTAL' , 'PPN' , 'ABONEMEN' , 'PEMAKAIAN', 'KREDIT', 'DEBIT', 'BAYAR')->get()))->download('file.xlsx');

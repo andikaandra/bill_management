@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
 	<h3 class="text-center">Upload file Pohon Revenue Bill</h3>
+	<hr>
 	@if($errors->any())
 		<div class="alert alert-warning" role="alert">
 			{!!$errors->first()!!}
@@ -89,11 +90,4 @@
 @endsection
 
 @section('script')
-<script type="text/javascript">
-    $(document).ready(function(){
-      $("#admin-upload").addClass("active");
-      $(".nav-link").removeClass("active");
-
-    });
-  </script>
 @endsection

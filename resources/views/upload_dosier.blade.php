@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
 	<h3 class="text-center">Upload file Dosier</h3>
+	<hr>
 	@if($errors->any())
 		<div class="alert alert-warning" role="alert">
 			{!!$errors->first()!!}

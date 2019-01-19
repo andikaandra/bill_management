@@ -16,17 +16,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
-
-    private $excel;
     // public function __construct()
     // {
     //     $this->middleware('auth');
     // }
-
-    public function __construct(Excel $excel)
-    {
-        $this->excel = $excel;
-    }
+    private $bulan = array('januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember');
 
     public function index()
     {
@@ -37,11 +31,6 @@ class HomeController extends Controller
     public function unbill()
     {
         return view('welcome2');
-    }
-
-    public function download()
-    {
-        return view('download');
     }
 
     public function uploadBill()
@@ -69,11 +58,37 @@ class HomeController extends Controller
         return view('upload_gpon');
     }
 
+    public function downloadBill()
+    {
+        $bulans = $this->bulan;
+        return view('download_bill', compact('bulans'));
+    }
+
+    public function downloadUnbill()
+    {
+        return view('download_unbill');
+    }
+
+    public function downloadDosier()
+    {
+        return view('download_dosier');
+    }
+
+    public function downloadUkurVoice()
+    {
+        return view('download_ukur_voice');
+    }    
+
+    public function downloadGpon()
+    {
+        return view('download_gpon');
+    }
+
     public function getData($id, $snd, $bulan)
     {
         $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR', 'SND' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('id', $id)->first();
         $pelanggan = DB::table('dosier_'.$bulan)->select('NAMA', 'DATEL' ,'LART')->where('ND', $snd)->first();
-        
+
         return response()->json(['data' => $data, 'pelanggan' => $pelanggan]);
     }
 }
