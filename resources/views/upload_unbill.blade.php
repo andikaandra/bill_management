@@ -38,10 +38,10 @@
 	<div class="alert alert-success" role="alert">
 	  <h4 class="alert-heading">Note!</h4>
 	  <p class="mb-0">- File harus berupa .txt</p>
-	  <p class="mb-0">- Urutan kolom harus sesuai seperti berikut.</p>
-	  <p class="mb-0">- Jika ada kolom tambahan lain setelah "BUNDLING" maka tidak akan tercatat.</p>
+	  <p class="mb-0">- Jika anda mengupload data, maka data yang lama akan digantikan oleh data yang baru</p>
+	  <p class="mb-0">- Sistem hanya akan mencatat kolom sebagai berikut. kolom lainnya akan diabaikan</p>
 	  <hr>
-	  <p class="mb-0">"NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "TOTAL_NET_LALU", "TOTAL_LALU", "PPN_LALU", "ABONEMEN_LALU", "PEMAKAIAN_LALU", "KREDIT_LALU", "DEBIT_LALU", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING"</p>
+	  <p class="mb-0">"NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING"</p>
 	</div>
 </div>
 @endsection

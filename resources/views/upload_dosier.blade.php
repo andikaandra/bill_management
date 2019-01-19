@@ -35,6 +35,14 @@
   		<button type="submit" class="btn btn-primary">Upload</button>
 	</form>
   	<br>
+	<div class="alert alert-success" role="alert">
+	  <h4 class="alert-heading">Note!</h4>
+	  <p class="mb-0">- File harus berupa .txt</p>
+	  <p class="mb-0">- Jika anda mengupload data, maka data yang lama akan digantikan oleh data yang baru</p>
+	  <p class="mb-0">- Sistem hanya akan mencatat kolom sebagai berikut. kolom lainnya akan diabaikan</p>
+	  <hr>
+	  <p class="mb-0">"NCLI", "ND", "ND_REFERENCE", "NAMA", "DATEL", "CMDF", "RK", "DP", "LGEST", "LCAT", "LCOM", "CQUARTIER", "LQUARTIER", "CPOSTAL", "LVOIE", "NVOIE", "BAT", "RP_TAGIHAN", "TUNDA_CABUT", "LART", "LTARIF", "KWADRAN", "KWADRAN_POTS", "IS_IPTV", "CDATEL"</p>
+	</div>
 </div>
 @endsection
 

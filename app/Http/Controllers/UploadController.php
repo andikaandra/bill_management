@@ -20,27 +20,54 @@ class UploadController extends Controller
     public function uploadBill(Request $Request)
     {	
         $start = microtime(true);
+        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+			return Redirect::back()->withErrors(["File ".$Request->revenue." tidak ada."]);
+        }
+
         DB::connection()->disableQueryLog();
         DB::table('bill_'.$Request->bulan)->delete();
 
         $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
-        $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "TOTAL_NET_LALU", "TOTAL_LALU", "PPN_LALU", "ABONEMEN_LALU", "PEMAKAIAN_LALU", "KREDIT_LALU", "DEBIT_LALU", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
-        $dataBill = explode("\n", $contentBill);
-        $arrayBill = array();
+        $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
 
+        $dataBill = explode("\n", $contentBill);
+       	$listKolom = explode('|', $dataBill[0]);
+       	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
+        $indexHeader = array();
+
+        for ($i=0; $i < count($headerBill) ; $i++) {
+        	$flag=0;
+        	for ($j=0; $j < count($listKolom) ; $j++) { 
+        		if ($listKolom[$j]==$headerBill[$i]) {
+        			array_push($indexHeader, $j);
+        			$flag=1;
+        			break;
+        		}
+        	}
+        	if ($flag==0) {
+        		array_push($indexHeader, -1);
+        	}
+        }
+        $arrayBill = array();
         array_shift($dataBill);
+        array_pop($dataBill);
+        
         foreach ($dataBill as $d) {
             $d = str_replace("\r", '', $d);
 
             $temp = explode('|', $d);
             $temp2 = array();
-            for ($i=0; $i < count($temp) -1 ; $i++) {
-                $temp2[$headerBill[$i]] = $temp[$i];
+            for ($i=0; $i < count($headerBill); $i++) {
+            	$index = $indexHeader[$i];
+            	if ($index >= 0) {
+	                $temp2[$headerBill[$i]] = $temp[$index];
+            	}
+            	else{
+            		$temp2[$headerBill[$i]] = "-";
+            	}
             }
             array_push($arrayBill, $temp2);
         }
-        array_pop($arrayBill);
-
         $chunks = array_chunk($arrayBill,1000);
         foreach ($chunks as $c) {
             DB::table('bill_'.$Request->bulan)->insert($c);
@@ -51,26 +78,54 @@ class UploadController extends Controller
     public function uploadUnbill(Request $Request)
     {	
         $start = microtime(true);
+        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+			return Redirect::back()->withErrors(["File ".$Request->revenue." tidak ada."]);
+        }
+
         DB::connection()->disableQueryLog();
         DB::table('unbill_'.$Request->bulan)->delete();
 
         $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
-        $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "TOTAL_NET_LALU", "TOTAL_LALU", "PPN_LALU", "ABONEMEN_LALU", "PEMAKAIAN_LALU", "KREDIT_LALU", "DEBIT_LALU", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
-        $dataBill = explode("\n", $contentBill);
-        $arrayBill = array();
+        $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
 
+        $dataBill = explode("\n", $contentBill);
+       	$listKolom = explode('|', $dataBill[0]);
+       	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
+        $indexHeader = array();
+
+        for ($i=0; $i < count($headerBill) ; $i++) {
+        	$flag=0;
+        	for ($j=0; $j < count($listKolom) ; $j++) { 
+        		if ($listKolom[$j]==$headerBill[$i]) {
+        			array_push($indexHeader, $j);
+        			$flag=1;
+        			break;
+        		}
+        	}
+        	if ($flag==0) {
+        		array_push($indexHeader, -1);
+        	}
+        }
+        $arrayBill = array();
         array_shift($dataBill);
+        array_pop($dataBill);
+        
         foreach ($dataBill as $d) {
             $d = str_replace("\r", '', $d);
 
             $temp = explode('|', $d);
             $temp2 = array();
-            for ($i=0; $i < count($temp) -1 ; $i++) {
-                $temp2[$headerBill[$i]] = $temp[$i];
+            for ($i=0; $i < count($headerBill); $i++) {
+            	$index = $indexHeader[$i];
+            	if ($index >= 0) {
+	                $temp2[$headerBill[$i]] = $temp[$index];
+            	}
+            	else{
+            		$temp2[$headerBill[$i]] = "-";
+            	}
             }
             array_push($arrayBill, $temp2);
         }
-        array_pop($arrayBill);
 
         $chunks = array_chunk($arrayBill,1000);
         foreach ($chunks as $c) {
@@ -82,8 +137,12 @@ class UploadController extends Controller
     public function uploadDosier(Request $Request)
     {	
         $start = microtime(true);
+        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+			return Redirect::back()->withErrors(["File ".$Request->revenue." tidak ada."]);
+        }
+
         DB::connection()->disableQueryLog();
-        DB::table('dosier_'.$Request->bulan)->delete();
+        DB::table('dosier_'.$Request->bulan)->truncate();
 
         $contentDosier = File::get(storage_path('app/public/'.$Request->revenue));
         $headerDosier = array("NCLI", "ND", "ND_REFERENCE", "NAMA", "DATEL", "CMDF", "RK", "DP", "LGEST", "LCAT", "LCOM", "CQUARTIER", "LQUARTIER", "CPOSTAL", "LVOIE", "NVOIE", "BAT", "RP_TAGIHAN", "TUNDA_CABUT", "LART", "LTARIF", "KWADRAN", "KWADRAN_POTS", "IS_IPTV", "CDATEL");
