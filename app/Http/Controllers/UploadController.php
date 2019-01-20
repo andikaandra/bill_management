@@ -195,7 +195,62 @@ class UploadController extends Controller
     }
 
     public function uploadUkurVoice(Request $Request)
-    {   
+    {
+        $start = microtime(true);
+        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+        }
+
+        DB::connection()->disableQueryLog();
+        DB::table('ukur_voice_'.$Request->bulan)->truncate();
+
+        $contentUkur = File::get(storage_path('app/public/'.$Request->revenue));
+        $headerUkur = array("ND", "NO", "NODE_IP", "RACK", "SLOT", "PORT", "ONU_ID", "POTS_ID", "NODE_TYPE", "ONU_TYPE", "ONU_ACTUAL_TYPE", "ONU_SN", "SIP_USERNAME", "PHONE_NUMBER", "TYPE", "ONU_STATUS", "SIP_STATUS", "ONU_RX_LEVEL", "INSERTED_AT", "UPDATED_AT");
+
+        $dataUkur = explode("\n", $contentUkur);
+
+        $listKolom = explode("\t", $dataUkur[0]);
+        $listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
+        $indexHeader = array();
+
+        $countHeaderUkur = count($headerUkur);
+        $countListKolom = count($listKolom);
+
+        for ($i=0; $i < $countHeaderUkur ; $i++) {
+            $flag=0;
+            for ($j=0; $j < $countListKolom ; $j++) { 
+                if ($listKolom[$j]==$headerUkur[$i]) {
+                    array_push($indexHeader, $j);
+                    $flag=1;
+                    break;
+                }
+            }
+            if ($flag==0) {
+                array_push($indexHeader, -1);
+            }
+        }
+
+        $araryUkur = array();
+        array_shift($dataUkur);
+        array_pop($dataUkur);
+        
+        foreach ($dataUkur as $d) {
+            $d = str_replace("\r", '', $d);
+
+            $temp = explode("\t", $d);
+            $temp2 = array();
+            for ($i=0; $i < $countHeaderUkur; $i++) {
+                $temp2[$headerUkur[$i]] = $temp[$indexHeader[$i]];
+            }
+            array_push($araryUkur, $temp2);
+        }
+
+        $chunks = array_chunk($araryUkur,1000);
+        foreach ($chunks as $c) {
+            DB::table('ukur_voice_'.$Request->bulan)->insert($c);
+        }
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
+
         return $Request;
     }
 
@@ -203,5 +258,4 @@ class UploadController extends Controller
     {   
         return $Request;
     }
-
 }

@@ -72,17 +72,20 @@ class HomeController extends Controller
 
     public function downloadDosier()
     {
-        return view('download.download_dosier');
+        $bulans = $this->bulan;
+        return view('download.download_dosier', compact('bulans'));
     }
 
     public function downloadUkurVoice()
     {
-        return view('download.download_ukur_voice');
+        $bulans = $this->bulan;
+        return view('download.download_ukur_voice', compact('bulans'));
     }    
 
     public function downloadGpon()
     {
-        return view('download.download_gpon');
+        $bulans = $this->bulan;
+        return view('download.download_gpon', compact('bulans'));
     }
 
     public function getData($id, $snd, $bulan)

@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DosierDesember extends Model
+class UkurVoiceSeptember extends Model
 {
-    protected $table = 'dosier_desember';
+    protected $table = 'ukur_voice_september';
     protected $guarded = [];
     public $timestamps = false;
 }
