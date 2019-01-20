@@ -35,53 +35,54 @@ class HomeController extends Controller
 
     public function uploadBill()
     {
-        return view('upload_bill');
+        return view('upload.upload_bill');
     }
 
     public function uploadUnbill()
     {
-        return view('upload_unbill');
+        return view('upload.upload_unbill');
     }
 
     public function uploadDosier()
     {
-        return view('upload_dosier');
+        return view('upload.upload_dosier');
     }
 
     public function uploadUkurVoice()
     {
-        return view('upload_ukur_voice');
+        return view('upload.upload_ukur_voice');
     }    
 
     public function uploadGpon()
     {
-        return view('upload_gpon');
+        return view('upload.upload_gpon');
     }
 
     public function downloadBill()
     {
         $bulans = $this->bulan;
-        return view('download_bill', compact('bulans'));
+        return view('download.download_bill', compact('bulans'));
     }
 
     public function downloadUnbill()
     {
-        return view('download_unbill');
+        $bulans = $this->bulan;
+        return view('download.download_unbill', compact('bulans'));
     }
 
     public function downloadDosier()
     {
-        return view('download_dosier');
+        return view('download.download_dosier');
     }
 
     public function downloadUkurVoice()
     {
-        return view('download_ukur_voice');
+        return view('download.download_ukur_voice');
     }    
 
     public function downloadGpon()
     {
-        return view('download_gpon');
+        return view('download.download_gpon');
     }
 
     public function getData($id, $snd, $bulan)

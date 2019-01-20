@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use DB;
 use File;
 use View;
-use Excel;
 use Response;
 use App\BillJanuari;
 use App\BillFebruari;
@@ -19,6 +18,19 @@ use App\BillSeptember;
 use App\BillOktober;
 use App\BillNovember;
 use App\BillDesember;
+use App\UnbillJanuari;
+use App\UnbillFebruari;
+use App\UnbillMaret;
+use App\UnbillApril;
+use App\UnbillMei;
+use App\UnbillJuni;
+use App\UnbillJuli;
+use App\UnbillAgustus;
+use App\UnbillSeptember;
+use App\UnbillOktober;
+use App\UnbillNovember;
+use App\UnbillDesember;
+
 use App\DosierDesember;
 use Illuminate\Http\Request;
 use App\Exports\BillDesemberExport;
@@ -33,6 +45,7 @@ class DownloadController extends Controller
 
     public function downloadBill($bulan, $tipe)
     {
+        $start = microtime(true);
         $namaFile = date('dmy_').'bill_'.$bulan.'_'.time().'.'.$tipe;
 
         if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
@@ -73,20 +86,108 @@ class DownloadController extends Controller
                 elseif ($bulan == 'desember') {
                     return (new FastExcel(BillDesember::all()))->download($namaFile);
                 }
-                return "dsd";
+                return 'coba lagi';
             }
             elseif ($tipe == 'txt') {
-                return "in-progress";
+                $bill = DB::table('bill_'.$bulan)->get();
+                if (!count($bill)) {
+                    return 'data kosong';
+                }
+                $bill = json_decode(json_encode($bill), true);
+                $headerBill = array_keys($bill[0]);
+
+                $billLength = count($bill);
+                $dataBill = array();
+
+                for ($i=0; $i < $billLength ; $i++) { 
+                    $temp2 = implode('|',array_values($bill[$i]))."\n";
+                    array_push($dataBill, $temp2);
+                }
+                array_unshift($dataBill, implode('|',$headerBill)."\n");
+
+                $resBill = implode("\r",$dataBill);
+
+                File::put(storage_path('app/public/'.$namaFile),$resBill);
+                return Response::download(storage_path('app/public/'.$namaFile));
+                return (microtime(true) - $start);
             }
         } 
         else{
-            return "Format salah";
+            return 'Format salah';
         }
     }
 
-    public function exportFast()
+    public function downloadUnbill($bulan, $tipe)
     {
-        return (new FastExcel(BillDesember::select('SND' , 'UMUR_PLG', 'TOTAL_NET', 'TOTAL' , 'PPN' , 'ABONEMEN' , 'PEMAKAIAN', 'KREDIT', 'DEBIT', 'BAYAR')->get()))->download('file.xlsx');
+        $namaFile = date('dmy_').'unbill_'.$bulan.'_'.time().'.'.$tipe;
+
+        if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
+            if ($tipe == 'xlsx' or $tipe == 'csv') {
+                if ($bulan == 'januari') {
+                    return (new FastExcel(UnbillJanuari::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'februari') {
+                    return (new FastExcel(UnbillFebruari::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'maret') {
+                    return (new FastExcel(UnbillMaret::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'april') {
+                    return (new FastExcel(UnbillApril::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'mei') {
+                    return (new FastExcel(UnbillMei::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'juni') {
+                    return (new FastExcel(UnbillJuni::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'juli') {
+                    return (new FastExcel(UnbillJuli::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'agustus') {
+                    return (new FastExcel(UnbillAgustus::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'september') {
+                    return (new FastExcel(UnbillSeptember::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'oktober') {
+                    return (new FastExcel(UnbillOktober::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'november') {
+                    return (new FastExcel(UnbillNovember::all()))->download($namaFile);
+                }
+                elseif ($bulan == 'desember') {
+                    return (new FastExcel(UnbillDesember::all()))->download($namaFile);
+                }
+                return 'coba lagi';
+            }
+            elseif ($tipe == 'txt') {
+                $bill = DB::table('unbill_'.$bulan)->get();
+                if (!count($bill)) {
+                    return 'data kosong';
+                }
+                $bill = json_decode(json_encode($bill), true);
+                $headerBill = array_keys($bill[0]);
+
+                $billLength = count($bill);
+                $dataBill = array();
+
+                for ($i=0; $i < $billLength ; $i++) { 
+                    $temp2 = implode('|',array_values($bill[$i]))."\n";
+                    array_push($dataBill, $temp2);
+                }
+                array_unshift($dataBill, implode('|',$headerBill)."\n");
+
+                $resBill = implode("\r",$dataBill);
+
+                File::put(storage_path('app/public/'.$namaFile),$resBill);
+                return Response::download(storage_path('app/public/'.$namaFile));
+                return (microtime(true) - $start);
+            }
+        } 
+        else{
+            return 'Format salah';
+        }
     }
     
     public function importFast()
