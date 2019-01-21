@@ -37,6 +37,7 @@ Route::group(['middleware' => ['admin_only']], function(){
 	Route::get('/download/bill/{bulan}/{tipe}', 'DownloadController@downloadBill');
 	Route::get('/download/unbill/{bulan}/{tipe}', 'DownloadController@downloadUnbill');	
 	Route::get('/download/dosier/{bulan}/{tipe}', 'DownloadController@downloadDosier');
+	Route::get('/download/dosier-mod/{bulan}/{tipe}', 'DownloadController@downloadDosierMod');
 	Route::get('/download/ukur-voice/{bulan}/{tipe}', 'DownloadController@downloadUkurVoice');
 	Route::get('/download/gpon/{bulan}/{tipe}', 'DownloadController@downloadGpon');
 
@@ -45,9 +46,7 @@ Route::group(['middleware' => ['admin_only']], function(){
 	Route::post('/upload-dosier', 'UploadController@uploadDosier')->name('upload.dosier');
 	Route::post('/upload-ukur', 'UploadController@uploadUkurVoice')->name('upload.ukur.voice');
 	Route::post('/upload-gpon', 'UploadController@uploadGpon')->name('upload.gpon');
-	
-	Route::get('/test', 'DownloadController@test');
-	Route::get('/test2', 'DownloadController@test2');
+
 	Route::post('/test3', 'DownloadController@test3')->name('test3');
 });
 Auth::routes();

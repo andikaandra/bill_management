@@ -6,43 +6,6 @@ use DB;
 use File;
 use View;
 use Response;
-use App\BillJanuari;
-use App\BillFebruari;
-use App\BillMaret;
-use App\BillApril;
-use App\BillMei;
-use App\BillJuni;
-use App\BillJuli;
-use App\BillAgustus;
-use App\BillSeptember;
-use App\BillOktober;
-use App\BillNovember;
-use App\BillDesember;
-use App\UnbillJanuari;
-use App\UnbillFebruari;
-use App\UnbillMaret;
-use App\UnbillApril;
-use App\UnbillMei;
-use App\UnbillJuni;
-use App\UnbillJuli;
-use App\UnbillAgustus;
-use App\UnbillSeptember;
-use App\UnbillOktober;
-use App\UnbillNovember;
-use App\UnbillDesember;
-use App\UkurVoiceJanuari;
-use App\UkurVoiceFebruari;
-use App\UkurVoiceMaret;
-use App\UkurVoiceApril;
-use App\UkurVoiceMei;
-use App\UkurVoiceJuni;
-use App\UkurVoiceJuli;
-use App\UkurVoiceAgustus;
-use App\UkurVoiceSeptember;
-use App\UkurVoiceOktober;
-use App\UkurVoiceNovember;
-use App\UkurVoiceDesember;
-use App\DosierDesember;
 use Illuminate\Http\Request;
 use App\Exports\BillDesemberExport;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -56,58 +19,29 @@ class DownloadController extends Controller
 
     public function downloadBill($bulan, $tipe)
     {
+        DB::connection()->disableQueryLog();
         $start = microtime(true);
         $namaFile = date('dmy_').'bill_'.$bulan.'_'.time().'.'.$tipe;
 
         if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
             if ($tipe == 'xlsx' or $tipe == 'csv') {
-                if ($bulan == 'januari') {
-                    return (new FastExcel(BillJanuari::all()))->download($namaFile);
+                try {
+                    return (new FastExcel(DB::table('bill_'.$bulan)->get()))->download($namaFile);
+                } catch (Exception $e) {
+                    echo 'coba lagi: ',  $e->getMessage(), "\n";
                 }
-                elseif ($bulan == 'februari') {
-                    return (new FastExcel(BillFebruari::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'maret') {
-                    return (new FastExcel(BillMaret::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'april') {
-                    return (new FastExcel(BillApril::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'mei') {
-                    return (new FastExcel(BillMei::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'juni') {
-                    return (new FastExcel(BillJuni::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'juli') {
-                    return (new FastExcel(BillJuli::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'agustus') {
-                    return (new FastExcel(BillAgustus::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'september') {
-                    return (new FastExcel(BillSeptember::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'oktober') {
-                    return (new FastExcel(BillOktober::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'november') {
-                    return (new FastExcel(BillNovember::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'desember') {
-                    return (new FastExcel(BillDesember::all()))->download($namaFile);
-                }
-                return 'coba lagi';
             }
             elseif ($tipe == 'txt') {
                 $bill = DB::table('bill_'.$bulan)->get();
-                if (!count($bill)) {
+                $billLength = count($bill);
+
+                if (!$billLength) {
                     return 'data kosong';
                 }
+
                 $bill = json_decode(json_encode($bill), true);
                 $headerBill = array_keys($bill[0]);
 
-                $billLength = count($bill);
                 $dataBill = array();
 
                 for ($i=0; $i < $billLength ; $i++) { 
@@ -130,57 +64,26 @@ class DownloadController extends Controller
 
     public function downloadUnbill($bulan, $tipe)
     {
+        DB::connection()->disableQueryLog();
         $namaFile = date('dmy_').'unbill_'.$bulan.'_'.time().'.'.$tipe;
 
         if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
             if ($tipe == 'xlsx' or $tipe == 'csv') {
-                if ($bulan == 'januari') {
-                    return (new FastExcel(UnbillJanuari::all()))->download($namaFile);
+                try {
+                    return (new FastExcel(DB::table('unbill_'.$bulan)->get()))->download($namaFile);
+                } catch (Exception $e) {
+                    echo 'coba lagi: ',  $e->getMessage(), "\n";
                 }
-                elseif ($bulan == 'februari') {
-                    return (new FastExcel(UnbillFebruari::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'maret') {
-                    return (new FastExcel(UnbillMaret::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'april') {
-                    return (new FastExcel(UnbillApril::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'mei') {
-                    return (new FastExcel(UnbillMei::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'juni') {
-                    return (new FastExcel(UnbillJuni::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'juli') {
-                    return (new FastExcel(UnbillJuli::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'agustus') {
-                    return (new FastExcel(UnbillAgustus::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'september') {
-                    return (new FastExcel(UnbillSeptember::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'oktober') {
-                    return (new FastExcel(UnbillOktober::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'november') {
-                    return (new FastExcel(UnbillNovember::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'desember') {
-                    return (new FastExcel(UnbillDesember::all()))->download($namaFile);
-                }
-                return 'coba lagi';
             }
             elseif ($tipe == 'txt') {
                 $bill = DB::table('unbill_'.$bulan)->get();
-                if (!count($bill)) {
+                $billLength = count($bill);
+                if (!$billLength) {
                     return 'data kosong';
                 }
                 $bill = json_decode(json_encode($bill), true);
                 $headerBill = array_keys($bill[0]);
 
-                $billLength = count($bill);
                 $dataBill = array();
 
                 for ($i=0; $i < $billLength ; $i++) { 
@@ -204,67 +107,35 @@ class DownloadController extends Controller
     public function downloadUkurVoice($bulan, $tipe)
     {
         $namaFile = date('dmy_').'ukur_voice_'.$bulan.'_'.time().'.'.$tipe;
-
+        DB::connection()->disableQueryLog();
         if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
             if ($tipe == 'xlsx' or $tipe == 'csv') {
-                if ($bulan == 'januari') {
-                    return (new FastExcel(UkurVoiceJanuari::all()))->download($namaFile);
+                try {
+                    return (new FastExcel(DB::table('ukur_voice_'.$bulan)->get()))->download($namaFile);
+                } catch (Exception $e) {
+                    echo 'coba lagi: ',  $e->getMessage(), "\n";
                 }
-                elseif ($bulan == 'februari') {
-                    return (new FastExcel(UkurVoiceFebruari::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'maret') {
-                    return (new FastExcel(UkurVoiceMaret::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'april') {
-                    return (new FastExcel(UkurVoiceApril::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'mei') {
-                    return (new FastExcel(UkurVoiceMei::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'juni') {
-                    return (new FastExcel(UkurVoiceJuni::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'juli') {
-                    return (new FastExcel(UkurVoiceJuli::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'agustus') {
-                    return (new FastExcel(UkurVoiceAgustus::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'september') {
-                    return (new FastExcel(UkurVoiceSeptember::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'oktober') {
-                    return (new FastExcel(UkurVoiceOktober::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'november') {
-                    return (new FastExcel(UkurVoiceNovember::all()))->download($namaFile);
-                }
-                elseif ($bulan == 'desember') {
-                    return (new FastExcel(UkurVoiceDesember::all()))->download($namaFile);
-                }
-                return 'coba lagi';
             }
             elseif ($tipe == 'txt') {
-                $bill = DB::table('ukur_voice_'.$bulan)->get();
-                if (!count($bill)) {
+                $ukur = DB::table('ukur_voice_'.$bulan)->get();
+                $ukurLength = count($ukur);
+                if (!$ukurLength) {
                     return 'data kosong';
                 }
-                $bill = json_decode(json_encode($bill), true);
-                $headerBill = array_keys($bill[0]);
+                $ukur = json_decode(json_encode($ukur), true);
+                $headerUkur = array_keys($ukur[0]);
 
-                $billLength = count($bill);
-                $dataBill = array();
+                $dataUkur = array();
 
-                for ($i=0; $i < $billLength ; $i++) { 
-                    $temp2 = implode("\t",array_values($bill[$i]))."\n";
-                    array_push($dataBill, $temp2);
+                for ($i=0; $i < $ukurLength ; $i++) { 
+                    $temp2 = implode("\t",array_values($ukur[$i]))."\n";
+                    array_push($dataUkur, $temp2);
                 }
-                array_unshift($dataBill, implode("\t",$headerBill)."\n");
+                array_unshift($dataUkur, implode("\t",$headerUkur)."\n");
 
-                $resBill = implode("\r",$dataBill);
+                $resUkur = implode("\r",$dataUkur);
 
-                File::put(storage_path('app/public/'.$namaFile),$resBill);
+                File::put(storage_path('app/public/'.$namaFile),$resUkur);
                 return Response::download(storage_path('app/public/'.$namaFile));
                 return (microtime(true) - $start);
             }
@@ -274,6 +145,74 @@ class DownloadController extends Controller
         }
     }
     
+
+    public function downloadDosier($bulan, $tipe)
+    {
+        $start = microtime(true);
+        DB::connection()->disableQueryLog();
+        $namaFile = date('dmy_').'dosier_'.$bulan.'_'.time().'.'.$tipe;
+
+        if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
+            if ($tipe == 'xlsx' or $tipe == 'csv') {
+                try {
+                    return (new FastExcel(DB::table('dosier_'.$bulan)->get()))->download($namaFile);
+                } catch (Exception $e) {
+                    echo 'coba lagi: ',  $e->getMessage(), "\n";
+                }
+            }
+            elseif ($tipe == 'txt') {
+                $dosier = json_decode(json_encode(DB::table('dosier_'.$bulan)->get()), true);
+                $dosierLength = count($dosier);
+                if (!$dosierLength) {
+                    return "Data Kosong";
+                }
+                $headerDosier = array_keys($dosier[0]);
+                $dataDosier = array();
+
+                for ($i=0; $i < $dosierLength ; $i++) { 
+                    $temp2 = implode('|',array_values($dosier[$i]))."\n";
+                    array_push($dataDosier, $temp2);
+                }
+                array_unshift($dataDosier, implode('|',$headerDosier)."\n");
+
+                File::put(storage_path('app/public/'.$namaFile), implode("\r",$dataDosier));
+                return Response::download(storage_path('app/public/'.$namaFile));
+                return (microtime(true) - $start);
+            }
+        } 
+        else{
+            return 'Format salah';
+        }
+    }
+
+    public function downloadDosierMod($bulan, $tipe)
+    {
+        $start = microtime(true);
+        DB::connection()->disableQueryLog();
+
+        $namaFile = date('dmy_').'dosier_revision_'.$bulan.'_'.time().'.'.$tipe;
+
+        if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
+            if ($tipe == 'xlsx' or $tipe == 'csv') {
+                try {
+                    return (new FastExcel(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
+                        $join->on('dosier_juli.ND', '=', 'dataDosier.ND');
+                        })->get()))->download($namaFile);
+                } catch (Exception $e) {
+                    echo 'coba lagi: ',  $e->getMessage(), "\n";
+                }
+            }
+            elseif ($tipe == 'txt') {
+                return "inprogress";
+            }
+        } 
+        else{
+            return 'Format salah';
+        }
+        return $data;
+    }
+
+
     public function importFast()
     {
         $start = microtime(true);
