@@ -52,8 +52,8 @@ class DownloadController extends Controller
 
                 $resBill = implode("\r",$dataBill);
 
-                File::put(storage_path('app/public/'.$namaFile),$resBill);
-                return Response::download(storage_path('app/public/'.$namaFile));
+                File::put(storage_path('app/public/bill/'.$namaFile),$resBill);
+                return Response::download(storage_path('app/public/bill/'.$namaFile));
                 return (microtime(true) - $start);
             }
         } 
@@ -94,8 +94,8 @@ class DownloadController extends Controller
 
                 $resBill = implode("\r",$dataBill);
 
-                File::put(storage_path('app/public/'.$namaFile),$resBill);
-                return Response::download(storage_path('app/public/'.$namaFile));
+                File::put(storage_path('app/public/unbill/'.$namaFile),$resBill);
+                return Response::download(storage_path('app/public/unbill/'.$namaFile));
                 return (microtime(true) - $start);
             }
         } 
@@ -135,8 +135,8 @@ class DownloadController extends Controller
 
                 $resUkur = implode("\r",$dataUkur);
 
-                File::put(storage_path('app/public/'.$namaFile),$resUkur);
-                return Response::download(storage_path('app/public/'.$namaFile));
+                File::put(storage_path('app/public/ukur-voice/'.$namaFile),$resUkur);
+                return Response::download(storage_path('app/public/ukur-voice/'.$namaFile));
                 return (microtime(true) - $start);
             }
         } 
@@ -175,8 +175,8 @@ class DownloadController extends Controller
                 }
                 array_unshift($dataDosier, implode('|',$headerDosier)."\n");
 
-                File::put(storage_path('app/public/'.$namaFile), implode("\r",$dataDosier));
-                return Response::download(storage_path('app/public/'.$namaFile));
+                File::put(storage_path('app/public/dosier/'.$namaFile), implode("\r",$dataDosier));
+                return Response::download(storage_path('app/public/dosier/'.$namaFile));
                 return (microtime(true) - $start);
             }
         } 
@@ -203,7 +203,25 @@ class DownloadController extends Controller
                 }
             }
             elseif ($tipe == 'txt') {
-                return "inprogress";
+                $dosier = json_decode(json_encode(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
+                        $join->on('dosier_juli.ND', '=', 'dataDosier.ND');
+                    })->get()), true);
+                $dosierLength = count($dosier);
+                if (!$dosierLength) {
+                    return "Data Kosong";
+                }
+                $headerDosier = array_keys($dosier[0]);
+                $dataDosier = array();
+
+                for ($i=0; $i < $dosierLength ; $i++) { 
+                    $temp2 = implode('|',array_values($dosier[$i]))."\n";
+                    array_push($dataDosier, $temp2);
+                }
+                array_unshift($dataDosier, implode('|',$headerDosier)."\n");
+
+                File::put(storage_path('app/public/dosier/'.$namaFile), implode("\r",$dataDosier));
+                return Response::download(storage_path('app/public/dosier/'.$namaFile));
+                return (microtime(true) - $start);
             }
         } 
         else{
