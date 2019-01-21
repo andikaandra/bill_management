@@ -90,4 +90,8 @@
 @endsection
 
 @section('script')
+<script>
+	$('#item-upload1').addClass('active');
+	$('#ui-basic4').collapse('show');
+</script>
 @endsection

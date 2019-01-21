@@ -86,6 +86,12 @@
               <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
           </li>
+          <li class="nav-item" id="item-home">
+            <a class="nav-link" href="{{url('/')}}">
+              <span class="menu-title">DASHBOARD</span>
+              <i class="mdi mdi-home menu-icon"></i>
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false" aria-controls="ui-basic4">
               <span class="menu-title">UPLOAD</span>
@@ -94,11 +100,11 @@
             </a>
             <div class="collapse" id="ui-basic4">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/bill') }}">Bill</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/unbill') }}">Unbill</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/dosier') }}">Dosier</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/ukur-voice') }}">Ukur Voice</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('upload/gpon') }}">GPON</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-upload1" href="{{ url('upload/bill') }}">Bill</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-upload2" href="{{ url('upload/unbill') }}">Unbill</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-upload3" href="{{ url('upload/dosier') }}">Dosier</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-upload4" href="{{ url('upload/ukur-voice') }}">Ukur Voice</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-upload5" href="{{ url('upload/gpon') }}">GPON</a></li>
               </ul>
             </div>
           </li>
@@ -110,11 +116,11 @@
             </a>
             <div class="collapse" id="ui-basic5">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{ url('download/bill') }}">Bill</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('download/unbill') }}">Unbill</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('download/dosier') }}">Dosier</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('download/ukur-voice') }}">Ukur Voice</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ url('download/gpon') }}">GPON</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-download1" href="{{ url('download/bill') }}">Bill</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-download2" href="{{ url('download/unbill') }}">Unbill</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-download3" href="{{ url('download/dosier') }}">Dosier</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-download4" href="{{ url('download/ukur-voice') }}">Ukur Voice</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-download5" href="{{ url('download/gpon') }}">GPON</a></li>
               </ul>
             </div>
           </li>

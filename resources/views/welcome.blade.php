@@ -2,21 +2,17 @@
 
 @section('content')
 <div class="container">
-  <h2 class="text-center">Data Bill</h2>
+  <h2 class="text-center">Data Lengkap </h2>
   <div class="row ">
     <div class="table-responsive">
       <table class="table table-sm table-dark table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col" class="text-center"></th>
-            <th scope="col" colspan="5" class="text-center">DESEMBER</th>
-          </tr>
-          <tr>
-            <th scope="col" class="text-center">SND</th>
-            <th scope="col" class="text-center">TOTAL NET</th>
-            <th scope="col" class="text-center">ABONEMEN</th>
-            <th scope="col" class="text-center">DEBIT</th>
-            <th scope="col" class="text-center">KREDIT</th>
+            <th scope="col" class="text-center">NCLI</th>
+            <th scope="col" class="text-center">ND</th>
+            <th scope="col" class="text-center">ND_REFERENCE</th>
+            <th scope="col" class="text-center">NAMA</th>
+            <th scope="col" class="text-center">RP_TAGIHAN</th>
             <th scope="col" class="text-center">RINCIAN</th>
           </tr>
         </thead>
@@ -25,19 +21,18 @@
             $count=1;
           @endphp
           @foreach($datas as $data)
-            @if($data->TOTAL_NET==0)
-              <tr class="table-danger">
-            @elseif($data->TOTAL_NET==$data->BAYAR)
-              <tr class="table-success">
-            @else
               <tr>
-            @endif
-                <td>{{$data->SND}}</td>
-                <td>Rp. @convert($data->TOTAL_NET)</td>
-                <td>Rp. @convert($data->ABONEMEN)</td>
-                <td>Rp. @convert($data->DEBIT)</td>
-                <td>Rp. @convert($data->KREDIT)</td>
-                <td align="center"><button type="button" data-snd="{{$data->SND}}" data-bulan="desember" data-id="{{$data->id}}" class="btn btn-sm btn-warning info">Cek</button></td>
+                <td>{{$data->NCLI}}</td>
+                <td>{{$data->ND}}</td>
+                <td>{{$data->ND_REFERENCE}}</td>
+                <td>{{$data->NAMA}}</td>
+                <td>Rp. @convert((int)$data->RP_TAGIHAN)</td>
+                <td align="center">
+                  <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-warning m-2 info1">Bill</button>
+                  <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-danger m-2">Unbill</button>
+                  <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-primary m-2">UVoice</button>
+{{--                   <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-info m-2">Gpon</button> --}}
+                </td>
               </tr>
           @endforeach
         </tbody>
@@ -128,29 +123,6 @@
             </form>
           </div>
           <div class="col">
-            <form>
-              <div class="form-group row">
-                <label for="title2" class="col-sm-12 col-form-label text-center">DATA DOSIER PELANGGAN</label>
-              </div>
-              <div class="form-group row">
-                <label for="nama" class="col-sm-4 col-form-label">NAMA</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="nama" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="datel" class="col-sm-4 col-form-label">DATEL</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="datel" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="lart" class="col-sm-4 col-form-label">LART</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="lart" disabled>
-                </div>
-              </div>
-            </form>
           </div>          
         </div>
       </div>
@@ -165,8 +137,10 @@
 
 @section('script')
 <script>
+  $('#item-home').addClass('active');
+
   $( document ).ready(function() {
-      $(document).on('click', '.info', async function(){
+      $(document).on('click', '.info1', async function(){
         const id = $(this).attr('data-id');
         const bulan = $(this).attr('data-bulan');
         const snd = $(this).attr('data-snd');
@@ -182,7 +156,7 @@
           console.log(e);
           return;
         }
-        $("h4.modal-title").html("Data Bill dan Dosier Pelanggan");
+        $("h4.modal-title").html("Data Bill");
 
         $("input[id='snd']").val(data.data.SND);
         $("input[id='total_net']").val("Rp. "+data.data.TOTAL_NET);
@@ -194,10 +168,6 @@
         $("input[id='debit']").val("Rp. "+data.data.DEBIT);
         $("input[id='bayar']").val("Rp. "+data.data.BAYAR);
         $("input[id='umur']").val("Rp. "+data.data.UMUR_PLG + " Bulan");
-
-        $("input[id='nama']").val(data.pelanggan.NAMA);
-        $("input[id='datel']").val(data.pelanggan.DATEL);
-        $("input[id='lart']").val(data.pelanggan.LART ? data.pelanggan.LART : '-');
 
         $("#modal-data").modal('show');
 

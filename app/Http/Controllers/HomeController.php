@@ -24,8 +24,19 @@ class HomeController extends Controller
 
     public function index()
     {
-        $datas = DB::table('bill_desember')->select('id', 'ABONEMEN', 'DEBIT', 'KREDIT', 'BAYAR', 'SND' , 'TOTAL_NET')->paginate(50);
+        $start = microtime(true);        
+        // $datas = DB::table('dosier_januari')
+        //         ->select('dosier_januari.ND', 'dosier_januari.ND_REFERENCE', 'dosier_januari.NCLI', 'dosier_januari.RP_TAGIHAN', 'dosier_januari.NAMA')
+        //         ->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_januari GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
+        //                 $join->on('dosier_januari.ND', '=', 'dataDosier.ND');
+        //             })
+        //         ->paginate(25);
+        $datas = DB::table('dosier_januari')
+                ->selectRaw('min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE')
+                ->groupBy('NAMA', 'LVOIE', 'DATEL', 'NVOIE', 'NCLI')
+                ->paginate(25);
         return view('welcome', compact('datas'));
+                return (microtime(true) - $start);
     }
 
     public function unbill()
@@ -90,9 +101,7 @@ class HomeController extends Controller
 
     public function getData($id, $snd, $bulan)
     {
-        $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR', 'SND' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('id', $id)->first();
-        $pelanggan = DB::table('dosier_'.$bulan)->select('NAMA', 'DATEL' ,'LART')->where('ND', $snd)->first();
-
-        return response()->json(['data' => $data, 'pelanggan' => $pelanggan]);
+        $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR', 'SND' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('snd', $id)->first();
+        return response()->json(['data' => $data]);
     }
 }

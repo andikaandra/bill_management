@@ -146,7 +146,7 @@ class UploadController extends Controller
         DB::table('dosier_'.$Request->bulan)->truncate();
 
         $contentDosier = File::get(storage_path('app/public/'.$Request->revenue));
-        $headerDosier = array("NCLI", "ND", "ND_REFERENCE", "NAMA", "DATEL", "CMDF", "RK", "DP", "LGEST", "LCAT", "LCOM", "CQUARTIER", "LQUARTIER", "CPOSTAL", "LVOIE", "NVOIE", "BAT", "RP_TAGIHAN", "TUNDA_CABUT", "LART", "LTARIF", "KWADRAN", "KWADRAN_POTS", "IS_IPTV", "CDATEL");
+        $headerDosier = array("NCLI", "ND", "ND_REFERENCE", "NAMA", "DATEL", "CMDF", "RK", "DP", "LGEST", "LCAT", "LCOM", "CQUARTIER", "LQUARTIER", "CPOSTAL", "LVOIE", "NVOIE", "BAT", "RP_TAGIHAN", "TUNDA_CABUT", "LART", "LTARIF", "KWADRAN", "KWADRAN_POTS", "IS_IPTV");
 
         $dataDosier = explode("\n", $contentDosier);
        	$listKolom = explode('|', $dataDosier[0]);

@@ -40,11 +40,8 @@
 @endsection
 
 @section('script')
-<script type="text/javascript">
-    $(document).ready(function(){
-      $("#admin-upload").addClass("active");
-      $(".nav-link").removeClass("active");
-
-    });
-  </script>
+<script>
+	$('#item-upload5').addClass('active');
+	$('#ui-basic4').collapse('show');
+</script>
 @endsection

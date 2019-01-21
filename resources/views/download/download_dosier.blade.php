@@ -38,3 +38,10 @@
 	</table>
 </div>
 @endsection
+
+@section('script')
+<script>
+	$('#item-download3').addClass('active');
+	$('#ui-basic5').collapse('show');
+</script>
+@endsection

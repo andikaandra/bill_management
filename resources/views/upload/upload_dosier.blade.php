@@ -53,11 +53,11 @@
 		  		<li>CMDF</li> 
 		  		<li>RK</li> 
 		  		<li>DP</li> 
-		  		<li>LGEST</li> 
 		  	</ul>
 	  	</div>
 	  	<div class="col">
 		  	<ul>
+		  		<li>LGEST</li> 
 		  		<li>LCAT</li> 
 		  		<li>LCOM</li> 
 		  		<li>CQUARTIER</li> 
@@ -65,11 +65,11 @@
 		  		<li>CPOSTAL</li> 
 		  		<li>LVOIE</li> 
 		  		<li>NVOIE</li> 
-		  		<li>BAT</li> 
 		  	</ul>
 	  	</div>
 	  	<div class="col">
 		  	<ul>
+		  		<li>BAT</li> 
 		  		<li>RP_TAGIHAN</li> 
 		  		<li>TUNDA_CABUT</li> 
 		  		<li>LART</li> 
@@ -77,7 +77,6 @@
 		  		<li>KWADRAN</li> 
 		  		<li>KWADRAN_POTS</li> 
 		  		<li>IS_IPTV</li> 
-		  		<li>CDATEL</li>
 		  	</ul>
 	  	</div>
 	  </div>
@@ -86,11 +85,8 @@
 @endsection
 
 @section('script')
-<script type="text/javascript">
-    $(document).ready(function(){
-      $("#admin-upload").addClass("active");
-      $(".nav-link").removeClass("active");
-
-    });
-  </script>
+<script>
+	$('#item-upload3').addClass('active');
+	$('#ui-basic4').collapse('show');
+</script>
 @endsection

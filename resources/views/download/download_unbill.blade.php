@@ -32,3 +32,10 @@
 	</table>
 </div>
 @endsection
+
+@section('script')
+<script>
+	$('#item-download2').addClass('active');
+	$('#ui-basic5').collapse('show');
+</script>
+@endsection
