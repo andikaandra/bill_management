@@ -217,6 +217,24 @@ class HomeController extends Controller
     public function getData($snd, $bulan)
     {
         $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('snd', $snd)->first();
-        return response()->json(['data' => $data]);
+
+        $data2 = DB::table('unbill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('snd', $snd)->first();
+
+        $data3 = DB::table('dosier_cache_'.$bulan)->select('NCLI', 'ND', 'ND_REFERENCE' ,'DATEL', 'RK', 'DP' , 'TUNDA_CABUT', 'LART', 'LTARIF', 'IS_IPTV')->where('ND', $snd)->first();
+
+        $data4 = DB::table('ukur_voice_'.$bulan)->select('NO', 'NODE_IP', 'SLOT' ,'PORT', 'ONU_ID', 'POTS_ID' , 'ONU_SN', 'SIP_USERNAME', 'PHONE_NUMBER', 'ONU_STATUS')->where('ND', $snd)->first();
+
+        return response()->json(['data' => $data, 'data2' => $data2, 'data3' => $data3, 'data4' => $data4]);
+    }
+
+    public function fullData($bulan)
+    {
+        DB::connection()->disableQueryLog();
+        $namaFile = date('dmy_').'full_Data_'.$bulan.'_'.time().'.csv';
+        return (new FastExcel($data = DB::table('dosier_cache_'.$bulan)
+        ->join('ukur_voice_'.$bulan, 'dosier_cache_'.$bulan.'.ND' , '=', 'ukur_voice_'.$bulan.'.ND')
+        ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
+        // ->take(100)
+        ->get()))->download($namaFile);
     }
 }

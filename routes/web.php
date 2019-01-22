@@ -49,6 +49,7 @@ Route::group(['middleware' => ['admin_only']], function(){
 
 	Route::post('/test3', 'DownloadController@test3')->name('test3');
 	Route::get('/cek-data/{b}', 'HomeController@cekData')->name('cek.data');
+	Route::get('/download/full/data/{bulan}', 'HomeController@fullData');
 	Route::post('/sync-data', 'HomeController@syncData')->name('sync.data');
 });
 Auth::routes();
