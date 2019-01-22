@@ -2,7 +2,20 @@
 
 @section('content')
 <div class="container">
-  <h2 class="text-center">Data Lengkap </h2>
+  <h2 class="text-center">Data Lengkap {{$bulan}} </h2>
+  <div class="row">
+    <div class="col justify-content-md-start">
+      <h5>Load time : {{$time}}</h5>  
+    </div>
+    <form action="{{route('sync.data')}}" method="post">
+    @csrf
+    <input type="hidden" name="bulan" value="{{$bulan}}">
+    <div class="col justify-content-md-end">
+      <h5 class="text-right">Last sync : {{$sync->updated_at}} <button class="btn btn-sm btn-success" type="submit">sync now</button></h5>
+    </div>
+    </form>
+  </div>
+  <hr>
   <div class="row ">
     <div class="table-responsive">
       <table class="table table-sm table-dark table-hover table-bordered">
@@ -20,18 +33,18 @@
           @php
             $count=1;
           @endphp
-          @foreach($datas as $data)
+          @foreach($data as $d)
               <tr>
-                <td>{{$data->NCLI}}</td>
-                <td>{{$data->ND}}</td>
-                <td>{{$data->ND_REFERENCE}}</td>
-                <td>{{$data->NAMA}}</td>
-                <td>Rp. @convert((int)$data->RP_TAGIHAN)</td>
+                <td>{{$d->NCLI}}</td>
+                <td>{{$d->ND}}</td>
+                <td>{{$d->ND_REFERENCE}}</td>
+                <td>{{$d->NAMA}}</td>
+                <td>Rp. @convert((int)$d->RP_TAGIHAN)</td>
                 <td align="center">
-                  <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-warning m-2 info1">Bill</button>
-                  <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-danger m-2">Unbill</button>
-                  <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-primary m-2">UVoice</button>
-{{--                   <button type="button" data-snd="{{$data->ND}}" data-bulan="januari" data-id="{{$data->ND}}" class="btn btn-sm btn-info m-2">Gpon</button> --}}
+                  <button type="button" data-snd="{{$d->ND}}" data-bulan="januari" data-id="{{$d->ND}}" class="btn btn-sm btn-warning m-2 info1">Bill</button>
+                  <button type="button" data-snd="{{$d->ND}}" data-bulan="januari" data-id="{{$d->ND}}" class="btn btn-sm btn-danger m-2">Unbill</button>
+                  <button type="button" data-snd="{{$d->ND}}" data-bulan="januari" data-id="{{$d->ND}}" class="btn btn-sm btn-primary m-2">UVoice</button>
+{{--                   <button type="button" data-snd="{{$d->ND}}" data-bulan="januari" data-id="{{$d->ND}}" class="btn btn-sm btn-info m-2">Gpon</button> --}}
                 </td>
               </tr>
           @endforeach
@@ -41,7 +54,7 @@
   </div>
   <br>
   <div class="row justify-content-md-center">
-    {{ $datas->links("pagination::bootstrap-4") }}
+    {{ $data->links("pagination::bootstrap-4") }}
   </div>
 </div>
 <div class="modal fade" id="modal-data" tabindex="-1" role="dialog" aria-labelledby="label-modal" aria-hidden="true">

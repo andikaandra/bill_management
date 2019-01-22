@@ -18,7 +18,7 @@
 
 
 Route::group(['middleware' => ['admin_only']], function(){
-	Route::get('/', 'HomeController@index');
+	Route::get('/', 'HomeController@index')->name('index');
 	Route::get('/unbill', 'HomeController@unbill');
 	Route::get('/data/bill/{id}/{snd}/{bulan}/{tipe}', 'HomeController@getData');
 
@@ -48,5 +48,7 @@ Route::group(['middleware' => ['admin_only']], function(){
 	Route::post('/upload-gpon', 'UploadController@uploadGpon')->name('upload.gpon');
 
 	Route::post('/test3', 'DownloadController@test3')->name('test3');
+	Route::get('/cek-data/{b}', 'HomeController@cekData')->name('cek.data');
+	Route::post('/sync-data/', 'HomeController@syncData')->name('sync.data');
 });
 Auth::routes();

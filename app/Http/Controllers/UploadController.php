@@ -22,7 +22,7 @@ class UploadController extends Controller
         }
 
         DB::connection()->disableQueryLog();
-        DB::table('bill_'.$Request->bulan)->delete();
+        DB::table('bill_'.$Request->bulan)->truncate();
 
         $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
         $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
@@ -82,7 +82,7 @@ class UploadController extends Controller
         }
 
         DB::connection()->disableQueryLog();
-        DB::table('unbill_'.$Request->bulan)->delete();
+        DB::table('unbill_'.$Request->bulan)->truncate();
 
         $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
         $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
