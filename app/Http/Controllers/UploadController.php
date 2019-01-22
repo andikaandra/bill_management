@@ -71,6 +71,7 @@ class UploadController extends Controller
         foreach ($chunks as $c) {
             DB::table('bill_'.$Request->bulan)->insert($c);
         }
+        DB::table('last_update')->where('type', 'bill')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
         return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
     }
 
@@ -132,6 +133,7 @@ class UploadController extends Controller
         foreach ($chunks as $c) {
             DB::table('unbill_'.$Request->bulan)->insert($c);
         }
+        DB::table('last_update')->where('type', 'unbill')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
         return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
     }
 
@@ -188,6 +190,7 @@ class UploadController extends Controller
         foreach ($chunks as $c) {
             DB::table('dosier_'.$Request->bulan)->insert($c);
         }
+        DB::table('last_update')->where('type', 'dosier')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
         return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
     }
 
@@ -246,6 +249,7 @@ class UploadController extends Controller
         foreach ($chunks as $c) {
             DB::table('ukur_voice_'.$Request->bulan)->insert($c);
         }
+        DB::table('last_update')->where('type', 'ukur-voice')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
         return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
 
         return $Request;

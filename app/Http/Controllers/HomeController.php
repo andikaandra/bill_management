@@ -57,24 +57,24 @@ class HomeController extends Controller
                 return redirect()->route('index')->with('error', 'Data belum lengkap!');
             }
 
-            if (!DB::table('dosier_cache_'.$b)->first()) {
-                $datas = DB::table('dosier_januari')
-                        ->selectRaw('dosier_januari.NCLI, dosier_januari.ND, dosier_januari.ND_REFERENCE, dosier_januari.NAMA, dosier_januari.DATEL, dosier_januari.CMDF, dosier_januari.RK, dosier_januari.DP, dosier_januari.LGEST, dosier_januari.LCAT, dosier_januari.LCOM, dosier_januari.CQUARTIER, dosier_januari.LQUARTIER, dosier_januari.CPOSTAL, dosier_januari.LVOIE, dosier_januari.NVOIE, dosier_januari.BAT, dosier_januari.RP_TAGIHAN, dosier_januari.TUNDA_CABUT, dosier_januari.LART, dosier_januari.LTARIF, dosier_januari.KWADRAN, dosier_januari.KWADRAN_POTS, dosier_januari.IS_IPTV')
-                        ->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_januari GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
-                                $join->on('dosier_januari.ND', '=', 'dataDosier.ND');
-                            })
-                        ->get()
-                        ->toArray();
-                $chunks = array_chunk($datas,1000);
-                foreach ($chunks as $c) {
-                    $to_fill = [];
-                    foreach($c as $record) {
-                      $to_fill[] = (array)$record;
-                    }
-                    DB::table('dosier_cache_'.$b)->insert($to_fill);
-                }
-                DB::table('last_sync')->where('bulan', $b)->update(['updated_at' => date('Y-m-d G:i:s')]);
-            }
+            // if (!DB::table('dosier_cache_'.$b)->first()) {
+            //     $datas = DB::table('dosier_januari')
+            //             ->selectRaw('dosier_januari.NCLI, dosier_januari.ND, dosier_januari.ND_REFERENCE, dosier_januari.NAMA, dosier_januari.DATEL, dosier_januari.CMDF, dosier_januari.RK, dosier_januari.DP, dosier_januari.LGEST, dosier_januari.LCAT, dosier_januari.LCOM, dosier_januari.CQUARTIER, dosier_januari.LQUARTIER, dosier_januari.CPOSTAL, dosier_januari.LVOIE, dosier_januari.NVOIE, dosier_januari.BAT, dosier_januari.RP_TAGIHAN, dosier_januari.TUNDA_CABUT, dosier_januari.LART, dosier_januari.LTARIF, dosier_januari.KWADRAN, dosier_januari.KWADRAN_POTS, dosier_januari.IS_IPTV')
+            //             ->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_januari GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
+            //                     $join->on('dosier_januari.ND', '=', 'dataDosier.ND');
+            //                 })
+            //             ->get()
+            //             ->toArray();
+            //     $chunks = array_chunk($datas,1000);
+            //     foreach ($chunks as $c) {
+            //         $to_fill = [];
+            //         foreach($c as $record) {
+            //           $to_fill[] = (array)$record;
+            //         }
+            //         DB::table('dosier_cache_'.$b)->insert($to_fill);
+            //     }
+            //     DB::table('last_sync')->where('bulan', $b)->update(['updated_at' => date('Y-m-d G:i:s')]);
+            // }
 
             $data = DB::table('dosier_cache_'.$b)->select('id', 'NCLI', 'ND', 'ND_REFERENCE', 'NAMA', 'RP_TAGIHAN')->paginate(50);
 
@@ -101,10 +101,10 @@ class HomeController extends Controller
             }
 
             if (!DB::table('dosier_cache_'.$b)->first()) {
-                $datas = DB::table('dosier_januari')
-                        ->selectRaw('dosier_januari.NCLI, dosier_januari.ND, dosier_januari.ND_REFERENCE, dosier_januari.NAMA, dosier_januari.DATEL, dosier_januari.CMDF, dosier_januari.RK, dosier_januari.DP, dosier_januari.LGEST, dosier_januari.LCAT, dosier_januari.LCOM, dosier_januari.CQUARTIER, dosier_januari.LQUARTIER, dosier_januari.CPOSTAL, dosier_januari.LVOIE, dosier_januari.NVOIE, dosier_januari.BAT, dosier_januari.RP_TAGIHAN, dosier_januari.TUNDA_CABUT, dosier_januari.LART, dosier_januari.LTARIF, dosier_januari.KWADRAN, dosier_januari.KWADRAN_POTS, dosier_januari.IS_IPTV')
-                        ->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_januari GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
-                                $join->on('dosier_januari.ND', '=', 'dataDosier.ND');
+                $datas = DB::table('dosier_'.$b)
+                        ->selectRaw('dosier_'.$b.'.NCLI, dosier_'.$b.'.ND, dosier_'.$b.'.ND_REFERENCE, dosier_'.$b.'.NAMA, dosier_'.$b.'.DATEL, dosier_'.$b.'.CMDF, dosier_'.$b.'.RK, dosier_'.$b.'.DP, dosier_'.$b.'.LGEST, dosier_'.$b.'.LCAT, dosier_'.$b.'.LCOM, dosier_'.$b.'.CQUARTIER, dosier_'.$b.'.LQUARTIER, dosier_'.$b.'.CPOSTAL, dosier_'.$b.'.LVOIE, dosier_'.$b.'.NVOIE, dosier_'.$b.'.BAT, dosier_'.$b.'.RP_TAGIHAN, dosier_'.$b.'.TUNDA_CABUT, dosier_'.$b.'.LART, dosier_'.$b.'.LTARIF, dosier_'.$b.'.KWADRAN, dosier_'.$b.'.KWADRAN_POTS, dosier_'.$b.'.IS_IPTV')
+                        ->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_'.$b.' GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join) use ($b){
+                                $join->on('dosier_'.$b.'.ND', '=', 'dataDosier.ND');
                             })
                         ->get()
                         ->toArray();
@@ -165,26 +165,47 @@ class HomeController extends Controller
 
     public function downloadBill()
     {
+        $ketersediaan = array();
+        $sync = array();
+        foreach ($this->bulan as $b) {
+            $ketersediaan[$b] = DB::table('bill_'.$b)->first();
+            $sync[$b] = DB::table('last_update')->where('type', 'bill')->where('bulan', $b)->first();
+        }
         $bulans = $this->bulan;
-        return view('download.download_bill', compact('bulans'));
+        return view('download.download_bill', compact('bulans', 'ketersediaan', 'sync'));
     }
 
     public function downloadUnbill()
     {
+        $ketersediaan = array();
+        foreach ($this->bulan as $b) {
+            $ketersediaan[$b] = DB::table('unbill_'.$b)->first();
+            $sync[$b] = DB::table('last_update')->where('type', 'unbill')->where('bulan', $b)->first();
+        }
         $bulans = $this->bulan;
-        return view('download.download_unbill', compact('bulans'));
+        return view('download.download_unbill', compact('bulans', 'ketersediaan', 'sync'));
     }
 
     public function downloadDosier()
     {
+        $ketersediaan = array();
+        foreach ($this->bulan as $b) {
+            $ketersediaan[$b] = DB::table('dosier_'.$b)->first();
+            $sync[$b] = DB::table('last_update')->where('type', 'dosier')->where('bulan', $b)->first();
+        }
         $bulans = $this->bulan;
-        return view('download.download_dosier', compact('bulans'));
+        return view('download.download_dosier', compact('bulans', 'ketersediaan', 'sync'));
     }
 
     public function downloadUkurVoice()
     {
+        $ketersediaan = array();
+        foreach ($this->bulan as $b) {
+            $ketersediaan[$b] = DB::table('ukur_voice_'.$b)->first();
+            $sync[$b] = DB::table('last_update')->where('type', 'ukur-voice')->where('bulan', $b)->first();
+        }
         $bulans = $this->bulan;
-        return view('download.download_ukur_voice', compact('bulans'));
+        return view('download.download_ukur_voice', compact('bulans', 'ketersediaan', 'sync'));
     }    
 
     public function downloadGpon()
@@ -193,9 +214,9 @@ class HomeController extends Controller
         return view('download.download_gpon', compact('bulans'));
     }
 
-    public function getData($id, $snd, $bulan)
+    public function getData($snd, $bulan)
     {
-        $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR', 'SND' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('snd', $id)->first();
+        $data = DB::table('bill_'.$bulan)->select('ABONEMEN', 'DEBIT', 'UMUR_PLG' ,'KREDIT', 'PEMAKAIAN', 'BAYAR' , 'TOTAL_NET', 'TOTAL', 'PPN')->where('snd', $snd)->first();
         return response()->json(['data' => $data]);
     }
 }

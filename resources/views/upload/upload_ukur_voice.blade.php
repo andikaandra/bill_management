@@ -44,7 +44,7 @@
 	  <hr>
 	  <div class="row">
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 				<li>ND</li>
 				<li>NO</li>
 				<li>NODE_IP</li>
@@ -55,7 +55,7 @@
 			</ul>
 	  	</div>
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 				<li>POTS_ID</li>
 				<li>NODE_TYPE</li>
 				<li>ONU_TYPE</li>
@@ -66,7 +66,7 @@
 			</ul>
 	  	</div>
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 				<li>TYPE</li>
 				<li>ONU_STATUS</li>
 				<li>SIP_STATUS</li>

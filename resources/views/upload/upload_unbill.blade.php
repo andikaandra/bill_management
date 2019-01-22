@@ -44,7 +44,7 @@
 	  <hr>
 	  <div class="row">
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 			  	<li>NPER</li> 
 			  	<li>TYPE_POHON</li> 
 			  	<li>CCA</li> 
@@ -58,7 +58,7 @@
 			</ul>
 	  	</div>
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 			  	<li>DATRS</li> 
 			  	<li>UMUR_PLG</li> 
 			  	<li>USAGE_DESC</li> 
@@ -72,7 +72,7 @@
 			</ul>
 	  	</div>
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 			  	<li>PEMAKAIAN</li> 
 			  	<li>KREDIT</li> 
 			  	<li>DEBIT</li> 

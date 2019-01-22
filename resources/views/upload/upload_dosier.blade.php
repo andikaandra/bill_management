@@ -44,7 +44,7 @@
 	  <hr>
 	  <div class="row">
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 		  		<li>NCLI</li> 
 		  		<li>ND</li> 
 		  		<li>ND_REFERENCE</li> 
@@ -56,7 +56,7 @@
 		  	</ul>
 	  	</div>
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 		  		<li>LGEST</li> 
 		  		<li>LCAT</li> 
 		  		<li>LCOM</li> 
@@ -68,7 +68,7 @@
 		  	</ul>
 	  	</div>
 	  	<div class="col">
-		  	<ul>
+		  	<ul class="list-arrow">
 		  		<li>BAT</li> 
 		  		<li>RP_TAGIHAN</li> 
 		  		<li>TUNDA_CABUT</li> 
