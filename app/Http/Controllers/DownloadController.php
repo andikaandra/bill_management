@@ -195,7 +195,7 @@ class DownloadController extends Controller
         if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
             if ($tipe == 'xlsx' or $tipe == 'csv') {
                 try {
-                    return (new FastExcel(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
+                    return (new FastExcel(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, NCLI) as dataDosier'), function($join){
                         $join->on('dosier_juli.ND', '=', 'dataDosier.ND');
                         })->get()))->download($namaFile);
                 } catch (Exception $e) {
@@ -203,9 +203,9 @@ class DownloadController extends Controller
                 }
             }
             elseif ($tipe == 'txt') {
-                $dosier = json_decode(json_encode(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join){
+                $dosier = json_decode(json_encode(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, NCLI) as dataDosier'), function($join){
                         $join->on('dosier_juli.ND', '=', 'dataDosier.ND');
-                    })->get()), true);
+                        })->get()), true);
                 $dosierLength = count($dosier);
                 if (!$dosierLength) {
                     return "Data Kosong";

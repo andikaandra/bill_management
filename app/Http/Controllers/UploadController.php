@@ -15,10 +15,10 @@ class UploadController extends Controller
 {
 
     public function uploadBill(Request $Request)
-    {	
+    {   
         $start = microtime(true);
         if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-			return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
         }
 
         DB::connection()->disableQueryLog();
@@ -28,24 +28,24 @@ class UploadController extends Controller
         $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
 
         $dataBill = explode("\n", $contentBill);
-       	$listKolom = explode('|', $dataBill[0]);
-       	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
+        $listKolom = explode('|', $dataBill[0]);
+        $listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
         $countHeaderBill = count($headerBill);
         $countListKolom = count($listKolom);
         for ($i=0; $i < $countHeaderBill ; $i++) {
-        	$flag=0;
-        	for ($j=0; $j < $countListKolom ; $j++) { 
-        		if ($listKolom[$j]==$headerBill[$i]) {
-        			array_push($indexHeader, $j);
-        			$flag=1;
-        			break;
-        		}
-        	}
-        	if ($flag==0) {
-        		array_push($indexHeader, -1);
-        	}
+            $flag=0;
+            for ($j=0; $j < $countListKolom ; $j++) { 
+                if ($listKolom[$j]==$headerBill[$i]) {
+                    array_push($indexHeader, $j);
+                    $flag=1;
+                    break;
+                }
+            }
+            if ($flag==0) {
+                array_push($indexHeader, -1);
+            }
         }
         $arrayBill = array();
         array_shift($dataBill);
@@ -57,13 +57,13 @@ class UploadController extends Controller
             $temp = explode('|', $d);
             $temp2 = array();
             for ($i=0; $i < $countHeaderBill; $i++) {
-            	$index = $indexHeader[$i];
-            	if ($index >= 0) {
-	                $temp2[$headerBill[$i]] = $temp[$index];
-            	}
-            	else{
-            		$temp2[$headerBill[$i]] = "-";
-            	}
+                $index = $indexHeader[$i];
+                if ($index >= 0) {
+                    $temp2[$headerBill[$i]] = $temp[$index];
+                }
+                else{
+                    $temp2[$headerBill[$i]] = "-";
+                }
             }
             array_push($arrayBill, $temp2);
         }
@@ -76,10 +76,10 @@ class UploadController extends Controller
     }
 
     public function uploadUnbill(Request $Request)
-    {	
+    {   
         $start = microtime(true);
         if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-			return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
         }
 
         DB::connection()->disableQueryLog();
@@ -89,24 +89,24 @@ class UploadController extends Controller
         $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
 
         $dataBill = explode("\n", $contentBill);
-       	$listKolom = explode('|', $dataBill[0]);
-       	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
+        $listKolom = explode('|', $dataBill[0]);
+        $listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
         $countHeaderBill = count($headerBill);
         $countListKolom = count($listKolom);
         for ($i=0; $i < $countHeaderBill ; $i++) {
-        	$flag=0;
-        	for ($j=0; $j < $countListKolom ; $j++) { 
-        		if ($listKolom[$j]==$headerBill[$i]) {
-        			array_push($indexHeader, $j);
-        			$flag=1;
-        			break;
-        		}
-        	}
-        	if ($flag==0) {
-        		array_push($indexHeader, -1);
-        	}
+            $flag=0;
+            for ($j=0; $j < $countListKolom ; $j++) { 
+                if ($listKolom[$j]==$headerBill[$i]) {
+                    array_push($indexHeader, $j);
+                    $flag=1;
+                    break;
+                }
+            }
+            if ($flag==0) {
+                array_push($indexHeader, -1);
+            }
         }
         $arrayBill = array();
         array_shift($dataBill);
@@ -118,13 +118,13 @@ class UploadController extends Controller
             $temp = explode('|', $d);
             $temp2 = array();
             for ($i=0; $i < $countHeaderBill; $i++) {
-            	$index = $indexHeader[$i];
-            	if ($index >= 0) {
-	                $temp2[$headerBill[$i]] = $temp[$index];
-            	}
-            	else{
-            		$temp2[$headerBill[$i]] = "-";
-            	}
+                $index = $indexHeader[$i];
+                if ($index >= 0) {
+                    $temp2[$headerBill[$i]] = $temp[$index];
+                }
+                else{
+                    $temp2[$headerBill[$i]] = "-";
+                }
             }
             array_push($arrayBill, $temp2);
         }
@@ -138,10 +138,10 @@ class UploadController extends Controller
     }
 
     public function uploadDosier(Request $Request)
-    {	
+    {   
         $start = microtime(true);
         if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-			return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
         }
 
         DB::connection()->disableQueryLog();
@@ -151,25 +151,25 @@ class UploadController extends Controller
         $headerDosier = array("NCLI", "ND", "ND_REFERENCE", "NAMA", "DATEL", "CMDF", "RK", "DP", "LGEST", "LCAT", "LCOM", "CQUARTIER", "LQUARTIER", "CPOSTAL", "LVOIE", "NVOIE", "BAT", "RP_TAGIHAN", "TUNDA_CABUT", "LART", "LTARIF", "KWADRAN", "KWADRAN_POTS", "IS_IPTV");
 
         $dataDosier = explode("\n", $contentDosier);
-       	$listKolom = explode('|', $dataDosier[0]);
-       	$listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
+        $listKolom = explode('|', $dataDosier[0]);
+        $listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
         $countHeaderDosier = count($headerDosier);
         $countListKolom = count($listKolom);
 
         for ($i=0; $i < $countHeaderDosier ; $i++) {
-        	$flag=0;
-        	for ($j=0; $j < $countListKolom ; $j++) { 
-        		if ($listKolom[$j]==$headerDosier[$i]) {
-        			array_push($indexHeader, $j);
-        			$flag=1;
-        			break;
-        		}
-        	}
-        	if ($flag==0) {
-        		array_push($indexHeader, -1);
-        	}
+            $flag=0;
+            for ($j=0; $j < $countListKolom ; $j++) { 
+                if ($listKolom[$j]==$headerDosier[$i]) {
+                    array_push($indexHeader, $j);
+                    $flag=1;
+                    break;
+                }
+            }
+            if ($flag==0) {
+                array_push($indexHeader, -1);
+            }
         }
         $arrayDosier = array();
         array_shift($dataDosier);
@@ -205,11 +205,22 @@ class UploadController extends Controller
         DB::table('ukur_voice_'.$Request->bulan)->truncate();
 
         $contentUkur = File::get(storage_path('app/public/'.$Request->revenue));
-        $headerUkur = array("ND", "NO", "NODE_IP", "RACK", "SLOT", "PORT", "ONU_ID", "POTS_ID", "NODE_TYPE", "ONU_TYPE", "ONU_ACTUAL_TYPE", "ONU_SN", "SIP_USERNAME", "PHONE_NUMBER", "TYPE", "ONU_STATUS", "SIP_STATUS", "ONU_RX_LEVEL", "INSERTED_AT", "UPDATED_AT");
+        $headerUkur = array("NO", "NODE_IP", "RACK", "SLOT", "PORT", "ONU_ID", "POTS_ID", "NODE_TYPE", "ONU_TYPE", "ONU_ACTUAL_TYPE", "ONU_SN", "SIP_USERNAME", "PHONE_NUMBER", "TYPE", "ONU_STATUS", "SIP_STATUS", "ONU_RX_LEVEL", "ONU_INSERTED_AT", "ONU_UPDATED_AT", "SIP_INSERTED_AT", "SIP_UPDATED_AT");
 
         $dataUkur = explode("\n", $contentUkur);
 
-        $listKolom = explode("\t", $dataUkur[0]);
+        $head = str_replace('"', '', str_replace("\t", '', $dataUkur[0]));
+
+        $jumlahKoma = substr_count($head, ',');
+        $jumlahTab = substr_count($head, "\t");
+        $listKolom = array();
+        if ($jumlahTab>$jumlahKoma) {
+            $listKolom = explode("\t", $head);
+        }
+        else{
+            $listKolom = explode(",", $head);
+        }
+        // return $listKolom;
         $listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
@@ -229,19 +240,43 @@ class UploadController extends Controller
                 array_push($indexHeader, -1);
             }
         }
-
+        // return $indexHeader;
+        // return $listKolom;
         $araryUkur = array();
         array_shift($dataUkur);
         array_pop($dataUkur);
-        
+
         foreach ($dataUkur as $d) {
             $d = str_replace("\r", '', $d);
+            $d = str_replace('"', '', $d);
+            $temp = array();
 
-            $temp = explode("\t", $d);
+            if (strpos($d, 'SIP_USERNAME')) {
+                return $d;
+                break;
+            }
+
+            $jumlahKoma = substr_count($d, ',');
+            $jumlahTab = substr_count($d, "\t");
+            if ($jumlahTab>$jumlahKoma) {
+                $temp = explode("\t", $d);
+            }
+            else{
+                $temp = explode(",", $d);
+            }
+
             $temp2 = array();
             for ($i=0; $i < $countHeaderUkur; $i++) {
-                $temp2[$headerUkur[$i]] = $temp[$indexHeader[$i]];
+                $temp2[$headerUkur[$i]] = strtok($temp[$indexHeader[$i]], ",");
             }
+            if ($temp[$indexHeader[13]]=='GPON') {
+                $temp2['NO_TYPE'] = 'FO';
+            }
+            else{
+                $temp2['NO_TYPE'] = 'CU';
+            }
+            $temp2['CLID'] = $temp[$indexHeader[1]].'/'.$temp[$indexHeader[2]].'/'.$temp[$indexHeader[3]].'/'.$temp[$indexHeader[4]].'/'.$temp[$indexHeader[5]];
+            $temp2['ND'] = str_replace("\r", '', $temp[$indexHeader[12]]);
             array_push($araryUkur, $temp2);
         }
 

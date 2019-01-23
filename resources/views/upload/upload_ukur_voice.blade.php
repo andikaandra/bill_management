@@ -45,34 +45,36 @@
 	  <div class="row">
 	  	<div class="col">
 		  	<ul class="list-arrow">
-				<li>ND</li>
+				<li>ND -> otomatis ( dari phone_number )</li>
+				<li>NO_TYPE -> otomatis ( FO/CU )</li>
 				<li>NO</li>
+				<li>CLID -> otomatis</li>
 				<li>NODE_IP</li>
 				<li>RACK</li>
 				<li>SLOT</li>
 				<li>PORT</li>
-				<li>ONU_ID</li>
 			</ul>
 	  	</div>
 	  	<div class="col">
 		  	<ul class="list-arrow">
+				<li>ONU_ID</li>
 				<li>POTS_ID</li>
 				<li>NODE_TYPE</li>
 				<li>ONU_TYPE</li>
 				<li>ONU_ACTUAL_TYPE</li>
 				<li>ONU_SN</li>
 				<li>SIP_USERNAME</li>
-				<li>PHONE_NUMBER</li>
 			</ul>
 	  	</div>
 	  	<div class="col">
 		  	<ul class="list-arrow">
+				<li>PHONE_NUMBER</li>
 				<li>TYPE</li>
 				<li>ONU_STATUS</li>
 				<li>SIP_STATUS</li>
 				<li>ONU_RX_LEVEL</li>
-				<li>INSERTED_AT</li>
-				<li>UPDATED_AT</li>
+				<li>SIP_INSERTED_AT</li>
+				<li>SIP_UPDATED_AT</li>
 		  	</ul>	  		
 	  	</div>
 	  </div>

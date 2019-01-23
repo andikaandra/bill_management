@@ -103,7 +103,7 @@ class HomeController extends Controller
             if (!DB::table('dosier_cache_'.$b)->first()) {
                 $datas = DB::table('dosier_'.$b)
                         ->selectRaw('dosier_'.$b.'.NCLI, dosier_'.$b.'.ND, dosier_'.$b.'.ND_REFERENCE, dosier_'.$b.'.NAMA, dosier_'.$b.'.DATEL, dosier_'.$b.'.CMDF, dosier_'.$b.'.RK, dosier_'.$b.'.DP, dosier_'.$b.'.LGEST, dosier_'.$b.'.LCAT, dosier_'.$b.'.LCOM, dosier_'.$b.'.CQUARTIER, dosier_'.$b.'.LQUARTIER, dosier_'.$b.'.CPOSTAL, dosier_'.$b.'.LVOIE, dosier_'.$b.'.NVOIE, dosier_'.$b.'.BAT, dosier_'.$b.'.RP_TAGIHAN, dosier_'.$b.'.TUNDA_CABUT, dosier_'.$b.'.LART, dosier_'.$b.'.LTARIF, dosier_'.$b.'.KWADRAN, dosier_'.$b.'.KWADRAN_POTS, dosier_'.$b.'.IS_IPTV')
-                        ->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_'.$b.' GROUP BY NAMA, LVOIE, DATEL, NVOIE, NCLI) as dataDosier'), function($join) use ($b){
+                        ->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN FROM dosier_'.$b.' GROUP BY NAMA, NCLI) as dataDosier'), function($join) use ($b){
                                 $join->on('dosier_'.$b.'.ND', '=', 'dataDosier.ND');
                             })
                         ->get()
@@ -230,11 +230,14 @@ class HomeController extends Controller
     public function fullData($bulan)
     {
         DB::connection()->disableQueryLog();
-        $namaFile = date('dmy_').'full_Data_'.$bulan.'_'.time().'.csv';
-        return (new FastExcel($data = DB::table('dosier_cache_'.$bulan)
+        // $namaFile = date('dmy_').'full_Data_'.$bulan.'_'.time().'.csv';
+        // return (new FastExcel())->download($namaFile);
+
+        $start = microtime(true);
+        $data = DB::table('dosier_cache_'.$bulan)
         ->join('ukur_voice_'.$bulan, 'dosier_cache_'.$bulan.'.ND' , '=', 'ukur_voice_'.$bulan.'.ND')
         ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
-        // ->take(100)
-        ->get()))->download($namaFile);
+        ->get();
+        return (microtime(true) - $start);
     }
 }

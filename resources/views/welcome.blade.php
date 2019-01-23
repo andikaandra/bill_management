@@ -378,7 +378,7 @@
           $("input[id='no']").val(data.data4.NO);
           $("input[id='node_ip']").val(data.data4.NODE_IP+'/'+data.data4.SLOT+'/'+data.data4.PORT+'/'+data.data4.ONU_ID);
           $("input[id='pots_id']").val(data.data4.POTS_ID);
-          $("input[id='onu_sn']").val(data.data4.SIP_USERNAME);
+          $("input[id='onu_sn']").val(data.data4.ONU_SN);
           $("input[id='sip_username']").val(data.data4.SIP_USERNAME);
           $("input[id='phone_number']").val(data.data4.PHONE_NUMBER);
           $("input[id='onu_status']").val(data.data4.ONU_STATUS);
