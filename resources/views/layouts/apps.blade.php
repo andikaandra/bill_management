@@ -103,7 +103,7 @@
                 <li class="nav-item"> <a class="nav-link" id="item-upload1" href="{{ url('upload/bill') }}">Bill</a></li>
                 <li class="nav-item"> <a class="nav-link" id="item-upload2" href="{{ url('upload/unbill') }}">Unbill</a></li>
                 <li class="nav-item"> <a class="nav-link" id="item-upload3" href="{{ url('upload/dosier') }}">Dosier</a></li>
-                <li class="nav-item"> <a class="nav-link" id="item-upload4" href="{{ url('upload/ukur-voice') }}">Ukur Voice</a></li>
+                <li class="nav-item"> <a class="nav-link" id="item-upload4" href="{{ url('upload/ukur-voice') }}">Voice</a></li>
                 <li class="nav-item"> <a class="nav-link" id="item-upload5" href="{{ url('upload/gpon') }}">GPON</a></li>
               </ul>
             </div>

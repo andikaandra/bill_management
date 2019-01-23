@@ -29,7 +29,7 @@ class HomeController extends Controller
         $ketersediaan = array();
         $bulans = $this->bulan;
         foreach ($this->bulan as $b) {
-            $res = (DB::table('bill_'.$b)->first() and DB::table('unbill_'.$b)->first() and DB::table('dosier_'.$b)->first() and DB::table('ukur_voice_'.$b)->first());
+            $res = (DB::table('bill_'.$b)->first() and DB::table('unbill_'.$b)->first() and DB::table('dosier_'.$b)->first() and DB::table('ukur_voice_'.$b)->first() and DB::table('gpon_'.$b)->first());
             if ($res) {
                 $res = "Tersedia";
             }
@@ -210,8 +210,13 @@ class HomeController extends Controller
 
     public function downloadGpon()
     {
+        $ketersediaan = array();
+        foreach ($this->bulan as $b) {
+            $ketersediaan[$b] = DB::table('gpon_'.$b)->first();
+            $sync[$b] = DB::table('last_update')->where('type', 'gpon')->where('bulan', $b)->first();
+        }
         $bulans = $this->bulan;
-        return view('download.download_gpon', compact('bulans'));
+        return view('download.download_gpon', compact('bulans', 'ketersediaan', 'sync'));
     }
 
     public function getData($snd, $bulan)

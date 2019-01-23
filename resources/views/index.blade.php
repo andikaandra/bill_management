@@ -8,7 +8,7 @@
     </div>    
   @endif
   <div class="alert alert-success" role="alert">
-    Pilih data yang akan anda gunakan. Jika anda memilih januari, maka data yang akan digunakan adalah <strong>bill bulan januari</strong>, <strong>unbill bulan januari</strong>, <strong>dosier bulan januari</strong> dan <strong>ukur voice bulan januari</strong>, jika ke 4 data tidak tersedia, maka anda harus mengupoad terlebih dahulu
+    Pilih data yang akan anda gunakan. Jika anda memilih januari, maka data yang akan digunakan adalah <strong>bill bulan januari</strong>, <strong>unbill bulan januari</strong>, <strong>dosier bulan januari</strong> dan <strong>ukur voice bulan januari</strong>, <strong>gpon bulan januari</strong>, jika ke 5 data tidak tersedia, maka anda harus mengupoad terlebih dahulu
   </div>
       <div class="form-group">
         <label for="bulan">Bulan</label>

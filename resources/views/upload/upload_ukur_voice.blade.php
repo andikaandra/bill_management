@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-	<h3 class="text-center">Upload file Ukur Voice</h3>
+	<h3 class="text-center">Upload file Voice</h3>
 	<hr>
 	@if($errors->any())
 		<div class="alert alert-warning" role="alert">
@@ -13,7 +13,7 @@
 	<form action="{{ route('upload.ukur.voice') }}" method="post">
    	@csrf
 	  	<div class="form-group">
-	    	<label for="exampleInputPassword1">Nama File Ukur Voice</label>
+	    	<label for="exampleInputPassword1">Nama File Voice</label>
 	    	<input type="text" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="namafile.txt" required>
 	  	</div>
 	  	<div class="form-group">

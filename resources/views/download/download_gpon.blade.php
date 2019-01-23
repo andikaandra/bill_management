@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-	<h3 class="text-center">Download file Voice</h3>
+	<h3 class="text-center">Download file GPON</h3>
 	<hr>
 	<div class="row justify-content-md-center">
 	 	<div class="col-12">
@@ -28,9 +28,9 @@
 							      	<td class="text-capitalize">{{ $bulans[$i] }}</td>
 							      	@if($ketersediaan[$bulans[$i]])
 							      	<td align="center">
-							      		<a class="btn btn-warning btn-sm m-2" href="{{ url("download/ukur-voice/$bulans[$i]/txt") }}" target="_blank" role="button">txt</a>
-							      		<a class="btn btn-primary btn-sm m-2" href="{{ url("download/ukur-voice/$bulans[$i]/csv") }}" target="_blank" role="button">csv</a>
-							      		<a class="btn btn-success btn-sm m-2" href="{{ url("download/ukur-voice/$bulans[$i]/xlsx") }}" target="_blank" role="button">xlsx</a>
+							      		<a class="btn btn-warning btn-sm m-2" href="{{ url("download/gpon/$bulans[$i]/txt") }}" target="_blank" role="button">txt</a>
+							      		<a class="btn btn-primary btn-sm m-2" href="{{ url("download/gpon/$bulans[$i]/csv") }}" target="_blank" role="button">csv</a>
+							      		<a class="btn btn-success btn-sm m-2" href="{{ url("download/gpon/$bulans[$i]/xlsx") }}" target="_blank" role="button">xlsx</a>
 							      	<td>{{ \Carbon\Carbon::parse($sync[$bulans[$i]]->updated_at)->format('d/M/Y - G:i:s A')}}</td>
 							      	@else
 							      	<td></td>
@@ -49,7 +49,7 @@
 
 @section('script')
 <script>
-	$('#item-download4').addClass('active');
+	$('#item-download5').addClass('active');
 	$('#ui-basic5').collapse('show');
 </script>
 @endsection

@@ -208,19 +208,81 @@ class UploadController extends Controller
         $headerUkur = array("NO", "NODE_IP", "RACK", "SLOT", "PORT", "ONU_ID", "POTS_ID", "NODE_TYPE", "ONU_TYPE", "ONU_ACTUAL_TYPE", "ONU_SN", "SIP_USERNAME", "PHONE_NUMBER", "TYPE", "ONU_STATUS", "SIP_STATUS", "ONU_RX_LEVEL", "ONU_INSERTED_AT", "ONU_UPDATED_AT", "SIP_INSERTED_AT", "SIP_UPDATED_AT");
 
         $dataUkur = explode("\n", $contentUkur);
+        $listKolom = explode("\t", str_replace('"', '', $dataUkur[0]));
+        $listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
+        $indexHeader = array();
 
-        $head = str_replace('"', '', str_replace("\t", '', $dataUkur[0]));
+        $countHeaderUkur = count($headerUkur);
+        $countListKolom = count($listKolom);
 
-        $jumlahKoma = substr_count($head, ',');
-        $jumlahTab = substr_count($head, "\t");
-        $listKolom = array();
-        if ($jumlahTab>$jumlahKoma) {
-            $listKolom = explode("\t", $head);
+        for ($i=0; $i < $countHeaderUkur ; $i++) {
+            $flag=0;
+            for ($j=0; $j < $countListKolom ; $j++) { 
+                if ($listKolom[$j]==$headerUkur[$i]) {
+                    array_push($indexHeader, $j);
+                    $flag=1;
+                    break;
+                }
+            }
+            if ($flag==0) {
+                array_push($indexHeader, -1);
+            }
         }
-        else{
-            $listKolom = explode(",", $head);
-        }
+        // return $indexHeader;
         // return $listKolom;
+        $araryUkur = array();
+        array_shift($dataUkur);
+        array_pop($dataUkur);
+        foreach ($dataUkur as $d) {
+            $d = str_replace("\r", '', $d);
+            $d = str_replace('"', '', $d);
+            $temp = array();
+
+            if (strpos($d, 'USERNAME')) {
+                continue;
+            }
+
+            $temp = explode("\t", $d);
+
+            $temp2 = array();
+            for ($i=0; $i < $countHeaderUkur; $i++) {
+                $temp2[$headerUkur[$i]] = strtok($temp[$indexHeader[$i]], ",");
+            }
+            if ($temp[$indexHeader[13]]=='GPON') {
+                $temp2['NO_TYPE'] = 'FO';
+            }
+            else{
+                $temp2['NO_TYPE'] = 'CU';
+            }
+            $temp2['CLID'] = $temp[$indexHeader[1]].'/'.$temp[$indexHeader[2]].'/'.$temp[$indexHeader[3]].'/'.$temp[$indexHeader[4]].'/'.$temp[$indexHeader[5]];
+            $temp2['ND'] = str_replace("\r", '', $temp[$indexHeader[12]]);
+            array_push($araryUkur, $temp2);
+        }
+        $chunks = array_chunk($araryUkur,1000);
+        foreach ($chunks as $c) {
+            DB::table('ukur_voice_'.$Request->bulan)->insert($c);
+        }
+        DB::table('last_update')->where('type', 'ukur-voice')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
+
+        return $Request;
+    }
+
+    public function uploadGpon(Request $Request)
+    {   
+        $start = microtime(true);
+        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+        }
+
+        DB::connection()->disableQueryLog();
+        DB::table('gpon_'.$Request->bulan)->truncate();
+
+        $contentUkur = File::get(storage_path('app/public/'.$Request->revenue));
+        $headerUkur = array("NO", "User_Internet", "NASIPAddress", "AcctStartTime", "AccStopTime", "Up", "Down", "FramedIPAddress", "CallingStationId", "Last_Seen", "Status_Koneksi", );
+
+        $dataUkur = explode("\n", $contentUkur);
+        $listKolom = explode("\t", str_replace('"', '', $dataUkur[0]));
         $listKolom[count($listKolom)-1] = str_replace("\r", '', $listKolom[count($listKolom)-1]);
         $indexHeader = array();
 
@@ -251,47 +313,46 @@ class UploadController extends Controller
             $d = str_replace('"', '', $d);
             $temp = array();
 
-            if (strpos($d, 'SIP_USERNAME')) {
-                return $d;
-                break;
+            if (strpos($d, 'NASIPAddress')) {
+                continue;
             }
-
-            $jumlahKoma = substr_count($d, ',');
-            $jumlahTab = substr_count($d, "\t");
-            if ($jumlahTab>$jumlahKoma) {
-                $temp = explode("\t", $d);
-            }
-            else{
-                $temp = explode(",", $d);
-            }
+            $temp = explode("\t", $d);
 
             $temp2 = array();
+            $shift=0;
+            $gpon=8;
             for ($i=0; $i < $countHeaderUkur; $i++) {
-                $temp2[$headerUkur[$i]] = strtok($temp[$indexHeader[$i]], ",");
+                $value = $temp[$indexHeader[$i]];
+                if ($shift) {
+                    $gpon=9;
+                    $temp2[$headerUkur[$i]] = $temp[$indexHeader[$i]+1];
+                }
+                else{
+                    $temp2[$headerUkur[$i]] = $value;               
+                }
+                if ($value=='1' and $i > 5) {
+                    $shift=1;
+                    $temp2[$headerUkur[$i]] = '1'.$temp[$indexHeader[$i]+1];
+                }
             }
-            if ($temp[$indexHeader[13]]=='GPON') {
-                $temp2['NO_TYPE'] = 'FO';
+            if (strpos('-'.$temp[$indexHeader[$gpon]], 'GPON')) {
+                $temp2['DAT'] = 'FO';
             }
             else{
-                $temp2['NO_TYPE'] = 'CU';
+                $temp2['DAT'] = 'CU';
             }
-            $temp2['CLID'] = $temp[$indexHeader[1]].'/'.$temp[$indexHeader[2]].'/'.$temp[$indexHeader[3]].'/'.$temp[$indexHeader[4]].'/'.$temp[$indexHeader[5]];
-            $temp2['ND'] = str_replace("\r", '', $temp[$indexHeader[12]]);
+            $temp2['Merk'] = '-';
+            $temp2['INET'] = strtok($temp[$indexHeader[1]], '@');
             array_push($araryUkur, $temp2);
         }
 
         $chunks = array_chunk($araryUkur,1000);
         foreach ($chunks as $c) {
-            DB::table('ukur_voice_'.$Request->bulan)->insert($c);
+            DB::table('gpon_'.$Request->bulan)->insert($c);
         }
-        DB::table('last_update')->where('type', 'ukur-voice')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
+        DB::table('last_update')->where('type', 'gpon')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
         return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
 
-        return $Request;
-    }
-
-    public function uploadGpon(Request $Request)
-    {   
         return $Request;
     }
 }

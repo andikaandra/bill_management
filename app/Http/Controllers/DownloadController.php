@@ -230,6 +230,47 @@ class DownloadController extends Controller
         return $data;
     }
 
+    public function downloadGpon($bulan, $tipe)
+    {
+        $namaFile = date('dmy_').'gpon_'.$bulan.'_'.time().'.'.$tipe;
+        DB::connection()->disableQueryLog();
+        if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
+            if ($tipe == 'xlsx' or $tipe == 'csv') {
+                try {
+                    return (new FastExcel(DB::table('gpon_'.$bulan)->get()))->download($namaFile);
+                } catch (Exception $e) {
+                    echo 'coba lagi: ',  $e->getMessage(), "\n";
+                }
+            }
+            elseif ($tipe == 'txt') {
+                $ukur = DB::table('gpon_'.$bulan)->get();
+                $ukurLength = count($ukur);
+                if (!$ukurLength) {
+                    return 'data kosong';
+                }
+                $ukur = json_decode(json_encode($ukur), true);
+                $headerUkur = array_keys($ukur[0]);
+
+                $dataUkur = array();
+
+                for ($i=0; $i < $ukurLength ; $i++) { 
+                    $temp2 = implode("\t",array_values($ukur[$i]))."\n";
+                    array_push($dataUkur, $temp2);
+                }
+                array_unshift($dataUkur, implode("\t",$headerUkur)."\n");
+
+                $resUkur = implode("\r",$dataUkur);
+
+                File::put(storage_path('app/public/gpon/'.$namaFile),$resUkur);
+                return Response::download(storage_path('app/public/gpon/'.$namaFile));
+                return (microtime(true) - $start);
+            }
+        } 
+        else{
+            return 'Format salah';
+        }
+    }
+
 
     public function importFast()
     {
