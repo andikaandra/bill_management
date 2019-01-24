@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h2 class="text-center">Data Lengkap {{$bulan}} <a class="btn btn-sm btn-success text-white" target="_blank" href="{{url("download/full/data/$bulan")}}" role="button">csv</a></h2>
+  <h2 class="text-center">Data Lengkap {{$bulan}} <a class="btn btn-sm btn-success text-white" target="_blank" href="{{url("download/full/data/$bulan")}}" role="button"><i class="fa fa-download"></i>&nbsp;csv</a></h2>
   <br><br>
   <div class="row">
     <div class="col justify-content-md-start">
@@ -12,22 +12,34 @@
     @csrf
     <input type="hidden" name="bulan" value="{{$bulan}}">
     <div class="col justify-content-md-end">
-      <h5 class="text-right">Last sync : {{ \Carbon\Carbon::parse($sync->updated_at)->format('d/M/Y - G:i:s A')}} <button class="btn btn-sm btn-success" type="submit">sync now</button></h5>
+      <h5 class="text-right">Last sync : {{ \Carbon\Carbon::parse($sync->updated_at)->format('d/M/Y - G:i:s A')}} <button class="btn btn-sm btn-warning" type="submit">sync now</button></h5>
     </div>
     </form>
   </div>
   <hr>
   <div class="row justify-content-md-center">
-    <div class="card">
+    <div class="card" style="width: 100%">
       <div class="card-body">
+        <form action="{{route('cari.data')}}" method="get" autocomplete="off">
+        @csrf
+          <input type="hidden" name="b" value="{{$bulan}}">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="cari berdasarkan ND" aria-label="nd" aria-describedby="button-addon2" name="nd">
+            <div class="input-group-append">
+              <button class="btn btn-info" type="submit" id="button-addon2"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </form>
+        <hr> 
         <table class="table table-sm table-bordered table-striped">
           <thead>
             <tr>
-              <th scope="col" class="text-center">NCLI</th>
-              <th scope="col" class="text-center">ND</th>
-              <th scope="col" class="text-center">ND_REFERENCE</th>
-              <th scope="col" class="text-center">NAMA</th>
-              <th scope="col" class="text-center">RP_TAGIHAN</th>
+              <th scope="col" class="text-center">@sortablelink('id')</th>
+              <th scope="col" class="text-center">@sortablelink('NCLI')</th>
+              <th scope="col" class="text-center">@sortablelink('ND')</th>
+              <th scope="col" class="text-center">@sortablelink('ND_REFERENCE')</th>
+              <th scope="col" class="text-center">@sortablelink('NAMA')</th>
+              <th scope="col" class="text-center">@sortablelink('RP_TAGIHAN')</th>
               <th scope="col" class="text-center">RINCIAN</th>
             </tr>
           </thead>
@@ -37,13 +49,14 @@
             @endphp
             @foreach($data as $d)
                 <tr>
+                  <td>{{$d->id}}</td>
                   <td>{{$d->NCLI}}</td>
                   <td>{{$d->ND}}</td>
                   <td>{{$d->ND_REFERENCE}}</td>
                   <td>{{$d->NAMA}}</td>
                   <td>Rp. @convert((int)$d->RP_TAGIHAN)</td>
                   <td align="center">
-                    <button type="button" data-snd="{{$d->ND}}" data-bulan="{{$bulan}}" class="btn btn-sm btn-danger info1 m-2">Cek</button>
+                    <button type="button" data-snd="{{$d->ND}}" data-bulan="{{$bulan}}" class="btn btn-sm btn-info info1 m-2">Cek</button>
                   </td>
                 </tr>
             @endforeach
@@ -54,7 +67,8 @@
   </div>
   <br>
   <div class="row justify-content-md-center">
-    {{ $data->links("pagination::bootstrap-4") }}
+    {!! $data->appends(\Request::except('page'))->render() !!}
+{{--     {{ $data->links("pagination::bootstrap-4") }} --}}
   </div>
 </div>
 <div class="modal fade" id="modal-data" tabindex="-1" role="dialog" aria-labelledby="label-modal" aria-hidden="true">
@@ -266,15 +280,15 @@
                 <label for="title1" class="col-sm-12 col-form-label text-center">DATA UKUR VOICE PELANGGAN</label>
               </div>
               <div class="form-group row">
-                <label for="total_net" class="col-sm-4 col-form-label">NO</label>
+                <label for="total_net" class="col-sm-4 col-form-label">TYPE</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="no" disabled>
+                  <input type="text" class="form-control" id="no_type" disabled>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="total_net" class="col-sm-4 col-form-label">NODE</label>
+                <label for="total_net" class="col-sm-4 col-form-label">CLID</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="node_ip" disabled>
+                  <input type="text" class="form-control" id="clid" disabled>
                 </div>
               </div>
               <div class="form-group row">
@@ -336,9 +350,9 @@
             });
 
         } catch (e) {
-          alert("Ajax error");
-          console.log(e);
-          return;
+            alert("Ajax error");
+            console.log(e);
+            return;
         }
         if (data.data) {
           $("input[id='total_net']").val("Rp. "+data.data.TOTAL_NET);
@@ -349,7 +363,7 @@
           $("input[id='kredit']").val("Rp. "+data.data.KREDIT);
           $("input[id='debit']").val("Rp. "+data.data.DEBIT);
           $("input[id='bayar']").val("Rp. "+data.data.BAYAR);
-          $("input[id='umur']").val("Rp. "+data.data.UMUR_PLG + " Bulan");
+          $("input[id='umur']").val("Rp. "+data.data.UMUR_PLG + ' Bulan');
         }
         if (data.data2) {
           $("input[id='total_netun']").val("Rp. "+data.data2.TOTAL_NET);
@@ -360,7 +374,7 @@
           $("input[id='kreditun']").val("Rp. "+data.data2.KREDIT);
           $("input[id='debitun']").val("Rp. "+data.data2.DEBIT);
           $("input[id='bayarun']").val("Rp. "+data.data2.BAYAR);
-          $("input[id='umurun']").val("Rp. "+data.data2.UMUR_PLG + " Bulan");
+          $("input[id='umurun']").val(data.data2.UMUR_PLG + ' Bulan');
         }
         if (data.data3) {
           $("input[id='ncli']").val(data.data3.NCLI);
@@ -375,8 +389,8 @@
           $("input[id='is_iptv']").val(data.data3.IS_IPTV);
         }
         if (data.data4) {
-          $("input[id='no']").val(data.data4.NO);
-          $("input[id='node_ip']").val(data.data4.NODE_IP+'/'+data.data4.SLOT+'/'+data.data4.PORT+'/'+data.data4.ONU_ID);
+          $("input[id='no_type']").val(data.data4.NO_TYPE);
+          $("input[id='clid']").val(data.data4.CLID);
           $("input[id='pots_id']").val(data.data4.POTS_ID);
           $("input[id='onu_sn']").val(data.data4.ONU_SN);
           $("input[id='sip_username']").val(data.data4.SIP_USERNAME);

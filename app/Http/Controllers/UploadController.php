@@ -17,14 +17,15 @@ class UploadController extends Controller
     public function uploadBill(Request $Request)
     {   
         $start = microtime(true);
-        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
-        }
+        // if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+        //     return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+        // }
 
         DB::connection()->disableQueryLog();
         DB::table('bill_'.$Request->bulan)->truncate();
 
-        $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
+        $contentBill = File::get($Request->revenue);
+        // $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
         $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
 
         $dataBill = explode("\n", $contentBill);
@@ -72,20 +73,21 @@ class UploadController extends Controller
             DB::table('bill_'.$Request->bulan)->insert($c);
         }
         DB::table('last_update')->where('type', 'bill')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
-        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->file('revenue')->getClientOriginalName().' <br>Bulan : '.$Request->bulan]);
     }
 
     public function uploadUnbill(Request $Request)
     {   
         $start = microtime(true);
-        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
-        }
+        // if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+        //     return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+        // }
 
         DB::connection()->disableQueryLog();
         DB::table('unbill_'.$Request->bulan)->truncate();
 
-        $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
+        $contentBill = File::get($Request->revenue);
+        // $contentBill = File::get(storage_path('app/public/'.$Request->revenue));
         $headerBill = array("NPER", "TYPE_POHON", "CCA", "SND", "SND_GROUP", "PRODUK", "BISNIS_AREA", "CATEGORY", "STO_DESC", "DATMS", "DATRS", "UMUR_PLG", "USAGE_DESC", "PAKET_FBIP", "PAKET_SPEEDY_DESC", "STATUS", "TOTAL_NET", "TOTAL", "PPN", "ABONEMEN", "PEMAKAIAN", "KREDIT", "DEBIT", "BAYAR", "BAYAR_DESC", "CENTITE", "GROUP_PORTFOLIO", "INDIHOME_DESC", "BUNDLING");
 
         $dataBill = explode("\n", $contentBill);
@@ -134,20 +136,21 @@ class UploadController extends Controller
             DB::table('unbill_'.$Request->bulan)->insert($c);
         }
         DB::table('last_update')->where('type', 'unbill')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
-        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->file('revenue')->getClientOriginalName().' <br>Bulan : '.$Request->bulan]);
     }
 
     public function uploadDosier(Request $Request)
     {   
         $start = microtime(true);
-        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
-        }
+        // if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+        //     return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+        // }
 
         DB::connection()->disableQueryLog();
         DB::table('dosier_'.$Request->bulan)->truncate();
 
-        $contentDosier = File::get(storage_path('app/public/'.$Request->revenue));
+        $contentDosier = File::get($Request->revenue);
+        // $contentDosier = File::get(storage_path('app/public/'.$Request->revenue));
         $headerDosier = array("NCLI", "ND", "ND_REFERENCE", "NAMA", "DATEL", "CMDF", "RK", "DP", "LGEST", "LCAT", "LCOM", "CQUARTIER", "LQUARTIER", "CPOSTAL", "LVOIE", "NVOIE", "BAT", "RP_TAGIHAN", "TUNDA_CABUT", "LART", "LTARIF", "KWADRAN", "KWADRAN_POTS", "IS_IPTV");
 
         $dataDosier = explode("\n", $contentDosier);
@@ -191,20 +194,21 @@ class UploadController extends Controller
             DB::table('dosier_'.$Request->bulan)->insert($c);
         }
         DB::table('last_update')->where('type', 'dosier')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
-        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->file('revenue')->getClientOriginalName().' <br>Bulan : '.$Request->bulan]);
     }
 
     public function uploadUkurVoice(Request $Request)
     {
         $start = microtime(true);
-        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
-        }
+        // if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+        //     return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+        // }
 
         DB::connection()->disableQueryLog();
         DB::table('ukur_voice_'.$Request->bulan)->truncate();
 
-        $contentUkur = File::get(storage_path('app/public/'.$Request->revenue));
+        $contentUkur = File::get($Request->revenue);
+        // $contentUkur = File::get(storage_path('app/public/'.$Request->revenue));
         $headerUkur = array("NO", "NODE_IP", "RACK", "SLOT", "PORT", "ONU_ID", "POTS_ID", "NODE_TYPE", "ONU_TYPE", "ONU_ACTUAL_TYPE", "ONU_SN", "SIP_USERNAME", "PHONE_NUMBER", "TYPE", "ONU_STATUS", "SIP_STATUS", "ONU_RX_LEVEL", "ONU_INSERTED_AT", "ONU_UPDATED_AT", "SIP_INSERTED_AT", "SIP_UPDATED_AT");
 
         $dataUkur = explode("\n", $contentUkur);
@@ -263,7 +267,7 @@ class UploadController extends Controller
             DB::table('ukur_voice_'.$Request->bulan)->insert($c);
         }
         DB::table('last_update')->where('type', 'ukur-voice')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
-        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->file('revenue')->getClientOriginalName().' <br>Bulan : '.$Request->bulan]);
 
         return $Request;
     }
@@ -271,14 +275,15 @@ class UploadController extends Controller
     public function uploadGpon(Request $Request)
     {   
         $start = microtime(true);
-        if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
-            return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
-        }
+        // if (!file_exists(storage_path('app/public/'.$Request->revenue))) {
+        //     return Redirect::back()->withErrors(['File '.$Request->revenue.' tidak ada.']);
+        // }
 
         DB::connection()->disableQueryLog();
         DB::table('gpon_'.$Request->bulan)->truncate();
 
-        $contentUkur = File::get(storage_path('app/public/'.$Request->revenue));
+        $contentUkur = File::get($Request->revenue);
+        // $contentUkur = File::get(storage_path('app/public/'.$Request->revenue));
         $headerUkur = array("NO", "User_Internet", "NASIPAddress", "AcctStartTime", "AccStopTime", "Up", "Down", "FramedIPAddress", "CallingStationId", "Last_Seen", "Status_Koneksi", );
 
         $dataUkur = explode("\n", $contentUkur);
@@ -345,13 +350,13 @@ class UploadController extends Controller
             $temp2['INET'] = strtok($temp[$indexHeader[1]], '@');
             array_push($araryUkur, $temp2);
         }
-
+        // return count($dataUkur);
         $chunks = array_chunk($araryUkur,1000);
         foreach ($chunks as $c) {
             DB::table('gpon_'.$Request->bulan)->insert($c);
         }
         DB::table('last_update')->where('type', 'gpon')->where('bulan', $Request->bulan)->update(['updated_at' => date('Y-m-d G:i:s')]);
-        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->revenue.' <br>Bulan : '.$Request->bulan]);
+        return Redirect::back()->withErrors(['Upload berhasil! <br>waktu : '.(microtime(true) - $start).' detik <br> Nama File : '.$Request->file('revenue')->getClientOriginalName().' <br>Bulan : '.$Request->bulan]);
 
         return $Request;
     }

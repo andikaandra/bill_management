@@ -10,11 +10,11 @@
 		</div>		
 	@endif
   	<h2 class="text-center"></h2>
-	<form action="{{ route('upload.ukur.voice') }}" method="post">
+	<form action="{{ route('upload.ukur.voice') }}" method="post" enctype="multipart/form-data">
    	@csrf
 	  	<div class="form-group">
-	    	<label for="exampleInputPassword1">Nama File Voice</label>
-	    	<input type="text" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="namafile.txt" required>
+	    	<label for="exampleInputPassword1">File Voice</label>
+	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_voice.txt" required>
 	  	</div>
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">Bulan</label>

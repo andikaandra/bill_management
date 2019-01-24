@@ -34,7 +34,7 @@
 						      		<a class="btn btn-success btn-sm m-2" href="{{ url("download/dosier/$bulans[$i]/xlsx") }}" target="_blank" role="button">xlsx</a>
 						      	</td>
 						      	<td align="center">
-						      		<a class="btn btn-warning btn-sm m-2" href="{{ url("download/dosier-mod/$bulans[$i]/txt") }}" target="_blank" role="button">txt</a>
+{{-- 						      		<a class="btn btn-warning btn-sm m-2" href="{{ url("download/dosier-mod/$bulans[$i]/txt") }}" target="_blank" role="button">txt</a> --}}
 						      		<a class="btn btn-primary btn-sm m-2" href="{{ url("download/dosier-mod/$bulans[$i]/csv") }}" target="_blank" role="button">csv</a>
 						      		<a class="btn btn-success btn-sm m-2" href="{{ url("download/dosier-mod/$bulans[$i]/xlsx") }}" target="_blank" role="button">xlsx</a>
 						      	</td>

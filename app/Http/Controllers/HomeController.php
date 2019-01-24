@@ -7,8 +7,7 @@ use File;
 use View;
 use Excel;
 use Response;
-use App\BillDesember;
-use App\DosierDesember;
+use App\DosierCacheJanuari;
 use Illuminate\Http\Request;
 use App\Exports\BillDesemberExport;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -76,7 +75,7 @@ class HomeController extends Controller
             //     DB::table('last_sync')->where('bulan', $b)->update(['updated_at' => date('Y-m-d G:i:s')]);
             // }
 
-            $data = DB::table('dosier_cache_'.$b)->select('id', 'NCLI', 'ND', 'ND_REFERENCE', 'NAMA', 'RP_TAGIHAN')->paginate(50);
+            $data = DosierCacheJanuari::select('id', 'NCLI', 'ND', 'ND_REFERENCE', 'NAMA', 'RP_TAGIHAN')->sortable()->paginate(50);
 
             $sync = DB::table('last_sync')->where('bulan', $b)->first();
             $bulan = $b;
@@ -227,7 +226,7 @@ class HomeController extends Controller
 
         $data3 = DB::table('dosier_cache_'.$bulan)->select('NCLI', 'ND', 'ND_REFERENCE' ,'DATEL', 'RK', 'DP' , 'TUNDA_CABUT', 'LART', 'LTARIF', 'IS_IPTV')->where('ND', $snd)->first();
 
-        $data4 = DB::table('ukur_voice_'.$bulan)->select('NO', 'NODE_IP', 'SLOT' ,'PORT', 'ONU_ID', 'POTS_ID' , 'ONU_SN', 'SIP_USERNAME', 'PHONE_NUMBER', 'ONU_STATUS')->where('ND', $snd)->first();
+        $data4 = DB::table('ukur_voice_'.$bulan)->select('NO_TYPE', 'CLID' ,'POTS_ID' , 'ONU_SN', 'SIP_USERNAME', 'PHONE_NUMBER', 'ONU_STATUS')->where('ND', substr($snd, 1))->first();
 
         return response()->json(['data' => $data, 'data2' => $data2, 'data3' => $data3, 'data4' => $data4]);
     }
@@ -241,8 +240,31 @@ class HomeController extends Controller
         $start = microtime(true);
         $data = DB::table('dosier_cache_'.$bulan)
         ->join('ukur_voice_'.$bulan, 'dosier_cache_'.$bulan.'.ND' , '=', 'ukur_voice_'.$bulan.'.ND')
-        ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
+        // ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
+        ->select('dosier_cache_'.$bulan.'.ND')
         ->get();
         return (microtime(true) - $start);
+    }
+
+    public function cariData(Request $Request)
+    {
+        $start = microtime(true);
+        if (in_array($Request->b, $this->bulan)){
+            DB::connection()->disableQueryLog();
+
+            if (!(DB::table('bill_'.$Request->b)->first() or DB::table('unbill_'.$Request->b)->first() or DB::table('dosier_'.$Request->b)->first() or DB::table('ukur_voice_'.$Request->b)->first())) {
+                return redirect()->route('index')->with('error', 'Data belum lengkap!');
+            }
+
+            $data = DosierCacheJanuari::select('id', 'NCLI', 'ND', 'ND_REFERENCE', 'NAMA', 'RP_TAGIHAN')->where('ND', $Request->nd)->orWhere('ND_REFERENCE', $Request->nd)->sortable()->paginate(25);
+
+            $sync = DB::table('last_sync')->where('bulan', $Request->b)->first();
+            $bulan = $Request->b;
+            $time = (microtime(true) - $start);
+            return view('welcome', compact('data', 'time', 'sync', 'bulan'));
+        }
+        else{
+            return redirect()->route('index');
+        }
     }
 }

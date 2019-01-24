@@ -195,17 +195,27 @@ class DownloadController extends Controller
         if (in_array($bulan, $this->bulan) and in_array($tipe, $this->tipe)) {
             if ($tipe == 'xlsx' or $tipe == 'csv') {
                 try {
-                    return (new FastExcel(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, NCLI) as dataDosier'), function($join){
-                        $join->on('dosier_juli.ND', '=', 'dataDosier.ND');
+                    if (DB::table('dosier_cache_'.$bulan)->first()) {
+                        return (new FastExcel(DB::table('dosier_cache_'.$bulan)->get()))->download($namaFile);
+                    }
+                    return (new FastExcel(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_'.$bulan.' GROUP BY NAMA, NCLI, DATEL, LVOIE, NVOIE) as dataDosier'), function($join) use ($bulan){
+                        $join->on('dosier_'.$bulan.'.ND', '=', 'dataDosier.ND');
                         })->get()))->download($namaFile);
                 } catch (Exception $e) {
                     echo 'coba lagi: ',  $e->getMessage(), "\n";
                 }
             }
             elseif ($tipe == 'txt') {
-                $dosier = json_decode(json_encode(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_juli GROUP BY NAMA, NCLI) as dataDosier'), function($join){
-                        $join->on('dosier_juli.ND', '=', 'dataDosier.ND');
+                $dosier;
+                if (DB::table('dosier_cache_'.$bulan)->first()) {
+                    $dosier = DB::table('dosier_cache_'.$bulan)->get();
+                }
+                else{
+                    $dosier = json_decode(json_encode(DB::table('dosier_'.$bulan)->join(DB::raw('(SELECT min(ND) as ND, max(ND_REFERENCE) as ND_REFERENCE, NCLI, NAMA, sum(RP_TAGIHAN) as RP_TAGIHAN, DATEL, NVOIE, LVOIE FROM dosier_'.$bulan.' GROUP BY NAMA, NCLI, DATEL, NVOIE, LVOIE) as dataDosier'), function($join) use ($bulan){
+                        $join->on('dosier_'.$bulan.'.ND', '=', 'dataDosier.ND');
                         })->get()), true);
+                    
+                }
                 $dosierLength = count($dosier);
                 if (!$dosierLength) {
                     return "Data Kosong";

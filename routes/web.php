@@ -51,5 +51,6 @@ Route::group(['middleware' => ['admin_only']], function(){
 	Route::get('/cek-data/{b}', 'HomeController@cekData')->name('cek.data');
 	Route::get('/download/full/data/{bulan}', 'HomeController@fullData');
 	Route::post('/sync-data', 'HomeController@syncData')->name('sync.data');
+	Route::get('/search', 'HomeController@cariData')->name('cari.data');
 });
 Auth::routes();

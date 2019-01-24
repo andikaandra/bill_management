@@ -10,11 +10,11 @@
 		</div>		
 	@endif
   	<h2 class="text-center"></h2>
-	<form action="{{ route('upload.bill') }}" method="post">
+	<form action="{{ route('upload.bill') }}" method="post" enctype="multipart/form-data">
    	@csrf
 	  	<div class="form-group">
-	    	<label for="exampleInputPassword1">Nama File Pohon Revenue Bill</label>
-	    	<input type="text" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="namafile.txt" required>
+	    	<label for="exampleInputPassword1">File Pohon Revenue Bill</label>
+	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_bill.txt" required>
 	  	</div>
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">Bulan</label>

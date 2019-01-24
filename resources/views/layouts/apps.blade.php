@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{{asset('admin-template/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('admin-template/css/style.css')}}">
   <link rel="shortcut icon" href="{{asset('admin-template/images/favicon.png')}}"/>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
   <div class="container-scroller">
@@ -19,16 +20,6 @@
         <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('admin-template/images/logo-mini.svg')}}" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-stretch">
-        <div class="search-field d-none d-md-block">
-          <form class="d-flex align-items-center h-100" action="#">
-            <div class="input-group">
-              <div class="input-group-prepend bg-transparent">
-                  <i class="input-group-text border-0 mdi mdi-magnify"></i>                
-              </div>
-              <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
-            </div>
-          </form>
-        </div>
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item d-none d-lg-block full-screen-link">
             <a class="nav-link">
