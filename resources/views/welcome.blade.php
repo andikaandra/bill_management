@@ -24,12 +24,13 @@
         @csrf
           <input type="hidden" name="b" value="{{$bulan}}">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="cari berdasarkan ND" aria-label="nd" aria-describedby="button-addon2" name="nd">
+            <input type="text" class="form-control" placeholder="cari berdasarkan ND" aria-label="nd" aria-describedby="button-addon2" name="c">
             <div class="input-group-append">
               <button class="btn btn-info" type="submit" id="button-addon2"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </form>
+        <small>Display @convert($data->total() * $data->lastPage()) data.</small>
         <hr> 
         <table class="table table-sm table-bordered table-striped">
           <thead>

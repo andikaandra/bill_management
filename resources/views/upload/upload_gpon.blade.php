@@ -14,7 +14,7 @@
    	@csrf
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">File NODEGPONUSER</label>
-	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_gpon.txt" required>
+	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_gpon.txt" required accept="text/plain">
 	  	</div>
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">Bulan</label>
@@ -38,7 +38,7 @@
   	<br>
 	<div class="alert alert-success" role="alert">
 	  <h4 class="alert-heading text-danger">Note!</h4>
-	  <p class="mb-0">- File harus berupa .txt (delimiter 'tab')</p>
+	  <p class="mb-0">- File harus berupa .txt (delimiter 'tab'). save as tab delimiter text</p>
 	  <p class="mb-0">- Jika anda mengupload data, maka data yang lama akan digantikan oleh data yang baru</p>
 	  <p class="mb-0">- Sistem hanya akan mencatat kolom sebagai berikut. kolom lainnya akan diabaikan</p>
 	  <hr>

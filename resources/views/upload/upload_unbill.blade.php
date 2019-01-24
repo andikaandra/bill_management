@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-	<h3 class="text-center">Upload file Unbill</h3>
+	<h3 class="text-center">Upload file Pohon Revenue Unbill</h3>
 	<hr>
 	@if($errors->any())
 		<div class="alert alert-warning" role="alert">
@@ -14,7 +14,7 @@
    	@csrf
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">File Pohon Revenue UnBill</label>
-	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_unbill.txt" required>
+	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_unbill.txt" required accept="text/plain">
 	  	</div>
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">Bulan</label>

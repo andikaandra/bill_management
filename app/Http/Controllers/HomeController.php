@@ -240,9 +240,10 @@ class HomeController extends Controller
         $start = microtime(true);
         $data = DB::table('dosier_cache_'.$bulan)
         ->join('ukur_voice_'.$bulan, 'dosier_cache_'.$bulan.'.ND' , '=', 'ukur_voice_'.$bulan.'.ND')
-        // ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
-        ->select('dosier_cache_'.$bulan.'.ND')
-        ->get();
+        ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
+        // ->select('dosier_cache_'.$bulan.'.ND')
+        ->tosql();
+        return $data;
         return (microtime(true) - $start);
     }
 
@@ -256,7 +257,7 @@ class HomeController extends Controller
                 return redirect()->route('index')->with('error', 'Data belum lengkap!');
             }
 
-            $data = DosierCacheJanuari::select('id', 'NCLI', 'ND', 'ND_REFERENCE', 'NAMA', 'RP_TAGIHAN')->where('ND', $Request->nd)->orWhere('ND_REFERENCE', $Request->nd)->sortable()->paginate(25);
+            $data = DosierCacheJanuari::select('id', 'NCLI', 'ND', 'ND_REFERENCE', 'NAMA', 'RP_TAGIHAN')->where('ND', $Request->c)->orWhere('ND_REFERENCE', $Request->c)->orWhere('NAMA', 'like', '%' . $Request->c . '%')->sortable()->paginate(25);
 
             $sync = DB::table('last_sync')->where('bulan', $Request->b)->first();
             $bulan = $Request->b;

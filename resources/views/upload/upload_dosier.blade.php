@@ -14,7 +14,7 @@
    	@csrf
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">File Dosier</label>
-	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_dosier.txt" required>
+	    	<input type="file" name="revenue" class="form-control" id="exampleInputPassword1" placeholder="file_dosier.txt" required accept="text/plain">
 	  	</div>
 	  	<div class="form-group">
 	    	<label for="exampleInputPassword1">Bulan</label>
