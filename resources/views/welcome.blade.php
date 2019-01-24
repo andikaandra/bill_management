@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-  <h2 class="text-center">Data Lengkap {{$bulan}} <a class="btn btn-sm btn-success text-white" target="_blank" href="{{url("download/full/data/$bulan")}}" role="button"><i class="fa fa-download"></i>&nbsp;csv</a></h2>
+  <h3 class="text-center">Data Lengkap(dosier+gpon/inet) {{$bulan}} <a class="btn btn-sm btn-success text-white" target="_blank" href="{{url("download/full/data/$bulan")}}" role="button"><i class="fa fa-download"></i>&nbsp;voice</a>&nbsp;<a class="btn btn-sm btn-success text-white" target="_blank" href="{{url("download/full/data2/$bulan")}}" role="button"><i class="fa fa-download"></i>&nbsp;inet</a></h3>
+  <h5 class="text-center">Data Finance (revenue+dosier) {{$bulan}} <a class="btn btn-sm btn-info text-white" target="_blank" href="{{url("download/finance/data/$bulan")}}" role="button"><i class="fa fa-download"></i>&nbsp;bill</a>&nbsp;<a class="btn btn-sm btn-info text-white" target="_blank" href="{{url("download/finance/data2/$bulan")}}" role="button"><i class="fa fa-download"></i>&nbsp;unbill</a></h5>
   <br><br>
   <div class="row">
     <div class="col justify-content-md-start">
@@ -24,7 +25,7 @@
         @csrf
           <input type="hidden" name="b" value="{{$bulan}}">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="cari berdasarkan ND" aria-label="nd" aria-describedby="button-addon2" name="c">
+            <input type="text" class="form-control" placeholder="cari berdasarkan ND" aria-label="nd" aria-describedby="button-addon2" name="c" required>
             <div class="input-group-append">
               <button class="btn btn-info" type="submit" id="button-addon2"><i class="fa fa-search"></i></button>
             </div>

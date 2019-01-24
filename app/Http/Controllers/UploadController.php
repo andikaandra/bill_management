@@ -259,7 +259,8 @@ class UploadController extends Controller
                 $temp2['NO_TYPE'] = 'CU';
             }
             $temp2['CLID'] = $temp[$indexHeader[1]].'/'.$temp[$indexHeader[2]].'/'.$temp[$indexHeader[3]].'/'.$temp[$indexHeader[4]].'/'.$temp[$indexHeader[5]];
-            $temp2['ND'] = str_replace("\r", '', $temp[$indexHeader[12]]);
+            $temp2['ND'] = '0'.str_replace("\r", '', $temp[$indexHeader[12]]);
+            $temp2['MERK'] = '-';
             array_push($araryUkur, $temp2);
         }
         $chunks = array_chunk($araryUkur,1000);
@@ -346,7 +347,6 @@ class UploadController extends Controller
             else{
                 $temp2['DAT'] = 'CU';
             }
-            $temp2['Merk'] = '-';
             $temp2['INET'] = strtok($temp[$indexHeader[1]], '@');
             array_push($araryUkur, $temp2);
         }

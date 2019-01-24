@@ -48,13 +48,12 @@
 				<li>INET -> otomatis</li>
 				<li>DAT -> otomatis</li>
 				<li>NO</li>
-				<li>Merk -> otomatis</li>
 				<li>User_Internet</li>
+				<li>NASIPAddress</li>
 			</ul>
 	  	</div>
 	  	<div class="col">
 		  	<ul class="list-arrow">
-				<li>NASIPAddress</li>
 				<li>AcctStartTime</li>
 				<li>AccStopTime</li>
 				<li>Up</li>

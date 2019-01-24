@@ -48,6 +48,7 @@
 				<li>ND -> otomatis ( dari phone_number )</li>
 				<li>NO_TYPE -> otomatis ( FO/CU )</li>
 				<li>NO</li>
+				<li>MERK -> otomatis</li>
 				<li>CLID -> otomatis</li>
 				<li>NODE_IP</li>
 				<li>RACK</li>

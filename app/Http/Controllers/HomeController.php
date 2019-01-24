@@ -234,17 +234,39 @@ class HomeController extends Controller
     public function fullData($bulan)
     {
         DB::connection()->disableQueryLog();
-        // $namaFile = date('dmy_').'full_Data_'.$bulan.'_'.time().'.csv';
-        // return (new FastExcel())->download($namaFile);
+        $namaFile = date('dmy_').'full_Data_voice_'.$bulan.'_'.time().'.csv';
 
         $start = microtime(true);
-        $data = DB::table('dosier_cache_'.$bulan)
-        ->join('ukur_voice_'.$bulan, 'dosier_cache_'.$bulan.'.ND' , '=', 'ukur_voice_'.$bulan.'.ND')
-        ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
-        // ->select('dosier_cache_'.$bulan.'.ND')
-        ->tosql();
-        return $data;
+        // $data = DB::table('dosier_cache_'.$bulan)
+        // ->join('ukur_voice_'.$bulan, 'dosier_cache_'.$bulan.'.ND' , '=', 'ukur_voice_'.$bulan.'.ND')
+        // ->select('dosier_cache_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.*')
+        // ->get();
+
+        $data = DB::table('dosier_'.$bulan)
+        ->where('dosier_'.$bulan.'.ND', 'LIKE', '0'.'%')
+        ->leftJoin('ukur_voice_'.$bulan, 'dosier_'.$bulan.'.ND' , '=', 'ukur_voice_'.$bulan.'.ND')
+        ->select('dosier_'.$bulan.'.*', 'ukur_voice_'.$bulan.'.NO_TYPE', 'ukur_voice_'.$bulan.'.CLID', 'ukur_voice_'.$bulan.'.MERK', 'ukur_voice_'.$bulan.'.NODE_TYPE', 'ukur_voice_'.$bulan.'.ONU_TYPE', 'ukur_voice_'.$bulan.'.ONU_SN', 'ukur_voice_'.$bulan.'.CLID', 'ukur_voice_'.$bulan.'.SIP_USERNAME', 'ukur_voice_'.$bulan.'.ONU_STATUS')
+        ->get();
+        return (new FastExcel($data))->download($namaFile);
         return (microtime(true) - $start);
+        return $data;
+    }
+
+    public function fullData2($bulan)
+    {
+        DB::connection()->disableQueryLog();
+        $namaFile = date('dmy_').'full_Data_inet_'.$bulan.'_'.time().'.csv';
+
+        $start = microtime(true);
+
+        $data = DB::table('dosier_'.$bulan)
+        ->where('dosier_'.$bulan.'.ND', 'LIKE', '1'.'%')
+        ->leftJoin('gpon_'.$bulan, 'dosier_'.$bulan.'.ND' , '=', 'gpon_'.$bulan.'.INET')
+        ->select('dosier_'.$bulan.'.*', 'gpon_'.$bulan.'.INET', 'gpon_'.$bulan.'.DAT', 'gpon_'.$bulan.'.User_Internet', 'gpon_'.$bulan.'.UP', 'gpon_'.$bulan.'.DOWN', 'gpon_'.$bulan.'.FramedIPAddress', 'gpon_'.$bulan.'.CallingStationId', 'gpon_'.$bulan.'.Last_Seen', 'gpon_'.$bulan.'.Status_koneksi')
+        ->get();
+        return (new FastExcel($data))->download($namaFile);
+        return (microtime(true) - $start);
+        return $data;
     }
 
     public function cariData(Request $Request)
@@ -268,4 +290,37 @@ class HomeController extends Controller
             return redirect()->route('index');
         }
     }
+
+    public function billData($bulan)
+    {
+        DB::connection()->disableQueryLog();
+        $namaFile = date('dmy_').'finance_Data_bill_'.$bulan.'_'.time().'.csv';
+
+        $start = microtime(true);
+
+        $data = DB::table('bill_'.$bulan)
+        ->leftJoin('dosier_'.$bulan, 'bill_'.$bulan.'.SND' , '=', 'dosier_'.$bulan.'.ND')
+        ->select('bill_'.$bulan.'.*', 'dosier_'.$bulan.'.NCLI', 'dosier_'.$bulan.'.NAMA', 'dosier_'.$bulan.'.TUNDA_CABUT', 'dosier_'.$bulan.'.LART', 'dosier_'.$bulan.'.LTARIF')
+        ->get();
+        return (new FastExcel($data))->download($namaFile);
+        return (microtime(true) - $start);
+        return $data;
+    }
+
+    public function billData2($bulan)
+    {
+        DB::connection()->disableQueryLog();
+        $namaFile = date('dmy_').'finance_Data_unbill_'.$bulan.'_'.time().'.csv';
+
+        $start = microtime(true);
+
+        $data = DB::table('unbill_'.$bulan)
+        ->leftJoin('dosier_'.$bulan, 'unbill_'.$bulan.'.SND' , '=', 'dosier_'.$bulan.'.ND')
+        ->select('unbill_'.$bulan.'.*', 'dosier_'.$bulan.'.NCLI', 'dosier_'.$bulan.'.NAMA', 'dosier_'.$bulan.'.TUNDA_CABUT', 'dosier_'.$bulan.'.LART', 'dosier_'.$bulan.'.LTARIF')
+        ->get();
+        return (new FastExcel($data))->download($namaFile);
+        return (microtime(true) - $start);
+        return $data;
+    }
+
 }
